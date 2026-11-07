@@ -3,10 +3,12 @@ const path=require('node:path');
 const {inventory}=require('./extract.cjs');
 const root=path.resolve(__dirname,'../..');
 const published=path.join(root,'js/i18n-en.js');
-const cache={...(fs.existsSync(published)?require(published):{}),...(fs.existsSync(path.join(root,'Codex/i18n-translation-cache.json'))?JSON.parse(fs.readFileSync(path.join(root,'Codex/i18n-translation-cache.json'),'utf8')):{})};
+const publishedCatalog=fs.existsSync(published)?require(published):{};
+const cache={...publishedCatalog,...(fs.existsSync(path.join(root,'Codex/i18n-translation-cache.json'))?JSON.parse(fs.readFileSync(path.join(root,'Codex/i18n-translation-cache.json'),'utf8')):{})};
 const overrides=JSON.parse(fs.readFileSync(path.join(__dirname,'overrides.json'),'utf8'));
 const entries=inventory();
-const catalog={};
+// Previously reviewed fragments also translate text assembled at runtime.
+const catalog={...publishedCatalog};
 const missing=[];
 for(const {source} of entries){
   let target=overrides[source]??cache[source];

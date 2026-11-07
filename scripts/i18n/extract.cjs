@@ -46,8 +46,11 @@ function inventory() {
       if(!node || typeof node!=='object')return;
       if(node.type==='Literal' && typeof node.value==='string' && !(parent?.type==='Property' && parent.key===node && !parent.computed)) text(node.value,file);
       if(node.type==='TemplateLiteral') {
-        text(sketch(node),file);
-        node.quasis.forEach(q=>text(q.value.cooked || '',file));
+        const value=sketch(node);
+        text(value,file);
+        // HTML text and attributes were collected from the complete template.
+        // Its individual fragments may end inside a tag or quoted attribute.
+        if(!/<[a-z][\s\S]*>/i.test(value)) node.quasis.forEach(q=>text(q.value.cooked || '',file));
       }
       if(node.type==='BinaryExpression' && node.operator==='+' && !(parent?.type==='BinaryExpression' && parent.operator==='+')) text(sketch(node),file);
       for(const [key,value] of Object.entries(node)) if(key!=='start'&&key!=='end') {
