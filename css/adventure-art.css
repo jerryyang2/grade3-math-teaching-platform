@@ -1,0 +1,101 @@
+/* Shared artwork for the lesson cards, island directory, arena and rewards. */
+.adventure-landmark {
+  display: block;
+  aspect-ratio: 1;
+  flex: none;
+  background-image: var(--landmark-sheet, url("../assets/storybook/landmarks-west.webp"));
+  background-size: 300% 200%;
+  background-position: var(--landmark-position, left top);
+  background-repeat: no-repeat;
+}
+.adventure-landmark:is([data-landmark="u6"],[data-landmark="u7"],[data-landmark="u8"],[data-landmark="u9"],[data-landmark="u10"],[data-landmark="trophy"]) {
+  --landmark-sheet: url("../assets/storybook/landmarks-east.webp");
+}
+.adventure-landmark:is([data-landmark="u2"],[data-landmark="u7"]) { --landmark-position: center top; }
+.adventure-landmark:is([data-landmark="u3"],[data-landmark="u8"]) { --landmark-position: right top; }
+.adventure-landmark:is([data-landmark="u4"],[data-landmark="u9"]) { --landmark-position: left bottom; }
+.adventure-landmark:is([data-landmark="u5"],[data-landmark="u10"]) { --landmark-position: center bottom; }
+.adventure-landmark:is([data-landmark="gate"],[data-landmark="trophy"]) { --landmark-position: right bottom; }
+
+.adventure-portrait {
+  display: inline-block;
+  flex: none;
+  width: var(--portrait-size, 44px);
+  aspect-ratio: 1;
+  box-sizing: border-box;
+  border: 2px solid #fffdf5;
+  border-radius: 50%;
+  background: var(--portrait-tint, #f3dfb2) url("../assets/animals/plush-friends.webp") var(--portrait-position, left top) / 200% 200% no-repeat;
+  box-shadow: 0 1px 3px #4538234a;
+  vertical-align: middle;
+}
+.adventure-portrait[data-portrait="bear"] { --portrait-tint: #f1d7b3; --portrait-position: right top; }
+.adventure-portrait[data-portrait="panda"] { --portrait-tint: #c6e3d7; --portrait-position: left bottom; }
+.adventure-portrait[data-portrait="fox"] { --portrait-tint: #f5d6c6; --portrait-position: right bottom; }
+.adventure-portrait[data-portrait="rabbit"] {
+  --portrait-tint: #e8def3;
+  background-image: url("../assets/animals/plush-rabbit.webp");
+  background-position: center;
+  background-size: 90%;
+}
+.adventure-cheer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+.calm-focus-mode .adventure-landmark { display: none; }
+
+.adventure-portrait[data-portrait-atlas] {
+  background-image: url("../assets/animals/plush-island-friends.webp");
+  background-size: 400% 400%;
+}
+.battle-avatar .adventure-portrait { --portrait-size: 100%; }
+.mascot-avatar-circle { padding: 0; }
+.mascot-avatar-circle .adventure-portrait { --portrait-size: 100%; }
+.mascot-switch-btn { padding: 2px; }
+.mascot-switch-btn .adventure-portrait { --portrait-size: 100%; pointer-events: none; }
+.celebration-badge .adventure-portrait { --portrait-size: 86px; }
+#clinic-student-selector .adventure-portrait { --portrait-size: 30px; }
+#course-point-list .adventure-portrait { --portrait-size: 34px; }
+#buddy-icon .adventure-portrait, #resident-icon .adventure-portrait { --portrait-size: 42px; }
+
+/* 學生卡片依實際可用寬度排欄，姓名與加分按鈕各自保留空間。 */
+#student-scoreboard {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+  min-width: 0;
+}
+#student-scoreboard [data-select-student] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 44px;
+  gap: 8px;
+  min-width: 0;
+  padding: 10px;
+  transform: none;
+}
+#student-scoreboard [data-select-student] > div {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 8px;
+  min-width: 0;
+}
+#student-scoreboard .adventure-portrait { --portrait-size: 40px; }
+#student-scoreboard .truncate {
+  min-width: 0;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+#student-scoreboard [data-add-star] {
+  width: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  align-self: center;
+  padding: 4px;
+  font-size: 14px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+div:has(> #student-scoreboard) > div:first-child { flex-wrap: wrap; gap: 8px; }
+#btn-reset-scores { flex-shrink: 0; }

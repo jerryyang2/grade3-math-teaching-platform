@@ -1,0 +1,23 @@
+[
+  "js/data.js",
+  "js/grade3-lower-problems.js",
+  "js/contest-features.js",
+  "js/worksheet-diagrams.js",
+  "css/worksheet-print.css",
+  "scripts/sync-worksheet-pdf.cjs",
+  "scripts/worksheets/build-book.py",
+  "scripts/worksheets/export-data.cjs",
+  "scripts/worksheets/verify-book.py",
+  "scripts/worksheets/sources.json",
+  "js/i18n.js",
+  "js/i18n-en.js",
+  "css/i18n.css",
+  "js/worksheet-layout.js",
+  "js/worksheet-font-metrics.js",
+  "js/worksheet-preview.js",
+  "scripts/pdf_fonts.py",
+  "worksheet-preview.html",
+  "js/worksheet-preview-page.js",
+  "css/zihi-reading.css",
+  "js/grade3-worksheet-variants.js"
+]

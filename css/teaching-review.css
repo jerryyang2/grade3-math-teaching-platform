@@ -1,0 +1,106 @@
+.practice-tool-dialog {
+  width: min(64rem, calc(100% - 1.5rem));
+  max-height: calc(100dvh - 2rem);
+  padding: 0 1rem 1rem;
+  overflow: auto;
+  border: 2px solid #68877a;
+  border-radius: .9rem;
+  background: var(--card-bg, #fffcf3);
+  color: var(--text-main, #223e34);
+}
+.practice-tool-dialog::backdrop { background: #162823aa; }
+.practice-tool-dialog > header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem 1rem;
+  padding: .75rem 0;
+  background: inherit;
+}
+.practice-tool-dialog h2 { margin: 0; font-size: 1.2rem; }
+.practice-tool-dialog button:focus-visible,
+.battle-teacher-actions button:focus-visible { outline: 3px solid #7e4c16; outline-offset: 2px; }
+.practice-tool-dialog form button, .battle-teacher-actions button { min-height: 44px; }
+.practice-tool-dialog #practice-tool-stage { min-width: 0; }
+
+.battle-think-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .45rem;
+  min-height: 44px;
+  color: var(--text-main, #23352e);
+  font-weight: 750;
+}
+.battle-think-toggle input { width: 1.25em; height: 1.25em; accent-color: #245b50; }
+.battle-teacher-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+.battle-teacher-actions [hidden] { display: none; }
+#battle-teacher-status { margin: .5rem 0; }
+#battle-teacher-status:empty { display: none; }
+#battle-question-visual { margin-top: .65rem; }
+#battle-question-visual summary { cursor: pointer; font-weight: 700; min-height: 44px; padding-block: .55rem; }
+#battle-question-figure .ws-diagram { max-width: 32rem; margin: 0 auto; }
+#battle-question-figure svg { display: block; width: 100%; max-height: 19rem; }
+#battle-answer-discussion { padding: .75rem; border: 1px solid #87a697; border-radius: .5rem; }
+.high-contrast-mode .practice-tool-dialog { background: #18181b; color: #fff; }
+.high-contrast-mode .battle-think-toggle { color: #fff; }
+
+@media print {
+  body:has(#tab-iep.active) > :not(#main-content-area),
+  body:has(#tab-iep.active) #main-content-area > :not(#tab-iep),
+  #tab-iep.active > :not(#iep-report-card) { display: none !important; }
+  #tab-iep.active, #iep-report-card, #iep-report-card .iep-tracker-layout {
+    display: block !important;
+    width: 100% !important;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    border: 0;
+  }
+  #iep-output { overflow: visible; max-height: none; }
+}
+
+#iep-output { overflow-wrap: anywhere; }
+
+#battle-answer-reveal summary { cursor: pointer; font-weight: 750; padding-block: .55rem; min-height: 44px; }
+
+/* 讓翻譯後的標籤、選單和教具在窄畫面內重新排列。 */
+#practice-unit-select { min-width: 0 !important; max-width: 100%; }
+.practice-range-row { min-width: 0; flex-wrap: wrap; }
+.practice-range-row #practice-unit-select { flex: 1 1 14rem; }
+:is(.lower-unit-tool, #tab-sandbox, .worksheet-settings, #tab-iep) select { min-width: 0; max-width: 100%; }
+.lower-unit-tool > label { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+.lower-unit-tool > label select { flex: 1 1 12rem; }
+.arcade-cards-grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); }
+#clinic-student-selector { min-width: 0; flex-wrap: wrap; }
+.clinic-dashboard-container > *, .iep-tracker-layout > * { min-width: 0; }
+#tab-iep :is(.radar-display-box, .growth-chart-box) svg { max-width: 100%; height: auto; }
+
+@media (max-width: 600px) {
+  .home-section-heading, .unit-card-header, .pv-lab .pv-material-switch { flex-wrap: wrap; }
+  .home-unit-stamp { max-width: 100%; transform: none; }
+  .storybook-site .mascot-info-area { min-width: 0; }
+  .storybook-site .mascot-switcher-mini { max-width: 100%; flex-wrap: wrap; }
+  #tab-iep .clinic-dashboard-container { grid-template-columns: minmax(0, 1fr); }
+  #tab-iep .evidence-card { overflow-wrap: anywhere; }
+  #tab-iep .evidence-card .evidence-table { overflow-wrap: normal; }
+}
+
+@media (max-width: 440px) {
+  #storybook-title em, a.math-islands-entry > b { white-space: normal; }
+  a.math-islands-entry { flex-wrap: wrap; }
+  .ho-guide > ol li { min-width: 0; overflow-wrap: anywhere; }
+  .pv-lab .pv-progress { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .pv-lab .pv-progress li { min-width: 0; text-align: center; overflow-wrap: anywhere; }
+}
+
+.lesson-island-actions {
+  display: flex; align-items: center; flex-wrap: wrap; gap: .65rem;
+  margin-bottom: .6rem;
+}
+.lesson-island-actions > :is(a,button) { min-height: 44px; }
+.lesson-island-actions > a { display: inline-flex; align-items: center; }

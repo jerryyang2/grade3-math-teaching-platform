@@ -1,0 +1,22 @@
+.semester-return {
+  display: flex;
+  justify-content: flex-end;
+  max-width: 85rem;
+  margin: 0 auto;
+  padding: 0 1rem .55rem;
+}
+.semester-return a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: .35rem .8rem;
+  color: #264f41;
+  background: #fffaed;
+  border: 1px solid #739285;
+  border-radius: .65rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+.semester-return a:hover { background: #f4e9ca; text-decoration: underline; }
+.semester-return a:focus-visible { outline: 3px solid #b76711; outline-offset: 2px; }
+@media print { .semester-return { display: none; } }

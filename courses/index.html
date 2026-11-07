@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-Hant" data-catalog="all">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="115 學年度南一版數學，含備課建議、隨堂練習和列印學習單。">
+  <title>數學課程｜慢慢把數學玩懂</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/icons/semester-book.svg">
+  <link rel="stylesheet" href="../grade4/classroom.css?v=worksheet-support-20261107">
+  <script defer src="curriculum-core.js"></script>
+  <script defer src="grade1-upper.js?v=20261107"></script>
+  <script defer src="grade1-upper-draw.js?v=20261107"></script>
+  <script defer src="grade1.js?v=20261107b"></script>
+  <script defer src="grade2.js"></script>
+  <script defer src="grade5.js"></script>
+  <script defer src="grade6.js"></script>
+  <script defer src="early-learning.js?v=20261107e"></script>
+  <script defer src="early-figures.js?v=20261107"></script>
+  <script defer src="practice-bank.js?v=20261107g"></script>
+  <script defer src="practice-early.js?v=20261107e"></script>
+  <script defer src="practice-senior.js?v=20261107f"></script>
+  <script defer src="practice-upper.js?v=20261107c"></script>
+  <script defer src="worksheet-figures.js?v=20261107f"></script>
+  <script defer src="../courses/classroom-figures.js?v=semester-arcade-1"></script>
+  <script defer src="../grade4/classroom.js?v=worksheet-support-20261107"></script>
+  <link rel="stylesheet" href="../css/classroom-timer.css">
+  <link rel="stylesheet" href="../css/math-toolbox.css">
+  <link rel="stylesheet" href="../css/adventure-art.css?v=plush-home-20261107">
+  <link rel="stylesheet" href="../css/floating-tools.css">
+  <link rel="stylesheet" href="../css/floating-toolbar.css">
+  <link rel="stylesheet" href="../css/edge-toolbars.css?v=course-toolbars-20261107">
+  <link rel="stylesheet" href="../courses/teaching.css?v=header-actions-20261107">
+  <script defer src="../js/classroom-timer.js"></script>
+  <link rel="stylesheet" href="../css/teacher-tools.css">
+  <link rel="stylesheet" href="../css/classroom-updates.css">
+  <link rel="stylesheet" href="../css/semester-teaching-tools.css?v=20261107">
+  <script defer src="../js/contest-features.js?v=plush-home-20261107"></script>
+  <script defer src="../js/teacher-tools.js?v=plush-home-20261107"></script>
+  <script defer src="../js/math-whiteboard.js"></script>
+  <script defer src="../js/math-toolbox.js?v=course-toolbars-20261107"></script>
+  <script src="../private/student-names.js"></script>
+  <script defer src="../js/adventure-art.js?v=plush-home-20261107"></script>
+  <script defer src="../js/animal-garden.js?v=plush-home-20261107"></script>
+  <script defer src="../js/classroom-roster.js?v=plush-home-20261107"></script>
+  <script defer src="../js/embedded-messaging.js"></script>
+  <script defer src="../js/battle-question-deck.js?v=20261107"></script>
+  <script defer src="../courses/teaching-games.js?v=question-deck-20261107"></script>
+  <script defer src="../js/magnifier.js"></script>
+  <script defer src="../js/floating-tools.js?v=course-toolbars-20261107"></script>
+  <script defer src="grade1-upper-tools.js?v=20261107"></script>
+  <link rel="stylesheet" href="../css/arcade-fullscreen.css?v=single-fullscreen-20261107">
+  <link rel="stylesheet" href="../courses/arcade.css?v=single-fullscreen-20261107">
+  <script defer src="../courses/arcade.js?v=semester-arcade-1"></script>
+  <script defer src="../courses/teaching.js?v=header-actions-20261107"></script>
+  <script defer src="../js/arcade-fullscreen.js?v=single-fullscreen-20261107"></script>
+  <link rel="stylesheet" href="../css/zihi-reading.css?v=20261107c">
+  <link rel="stylesheet" href="../css/battle-mondrian.css?v=team-arena-20261107">
+  <script defer src="../courses/teaching-tools.js?v=20261107"></script>
+  <link rel="stylesheet" href="../css/semester-home.css?v=two-unit-rows-20261107">
+</head>
+<body>
+  <a class="skip" href="#lesson">跳到單元內容</a>
+  <header class="classroom-header">
+    <div class="classroom-intro">
+      <img src="../assets/icons/semester-book.svg" width="56" height="56" alt="">
+      <div>
+        <p class="school">大埤國小學習教室</p>
+        <h1 id="term-title">數學課程</h1>
+        <p>慢慢把數學玩懂 · 115 學年度南一版 <span id="volume"></span></p>
+      </div>
+    </div>
+    <nav class="classroom-nav" aria-label="學期導覽">
+      <a href="../index.html">← 學期選單</a>
+      <a id="other-term" href="?grade=1&amp;term=lower">切換學期</a>
+    </nav>
+  </header>
+  <main class="classroom-main">
+    <section class="card unit-picker" aria-labelledby="unit-label">
+      <h2 id="unit-label">選擇單元</h2>
+      <div id="unit-list" class="unit-list"></div>
+    </section>
+    <section class="card" id="lesson" aria-labelledby="lesson-title">
+      <div class="lesson-heading">
+        <div><p class="eyebrow" id="unit-number"></p><h2 id="lesson-title" tabindex="-1"></h2></div>
+        <button type="button" class="outline" id="worksheet-open">選擇學習單</button>
+      </div>
+      <details class="teacher">
+        <summary>老師備課：先備能力與動手活動</summary>
+        <p><strong>先確認：</strong><span id="before"></span></p>
+        <p><strong>動手活動：</strong><span id="action"></span></p>
+      </details>
+      <label for="section-select" class="field">選擇小節</label>
+      <select id="section-select"></select>
+      <div class="lesson-concept"><h3>先懂這一步</h3><p id="concept"></p></div>
+      <section class="practice" aria-labelledby="practice-title">
+        <div class="practice-heading"><h3 id="practice-title">隨堂練習</h3><span id="progress"></span><button type="button" id="large-text" class="outline" aria-pressed="false">放大文字</button></div>
+        <p id="question" tabindex="-1"></p>
+        <div id="figure"></div>
+        <div class="practice-support">
+          <button type="button" id="read" class="outline" hidden>朗讀題目</button>
+          <button type="button" id="stop-read" class="outline" hidden>停止朗讀</button>
+          <button type="button" id="hint-open" class="outline" aria-controls="hint" aria-expanded="false">給我提示</button>
+          <button type="button" id="solution-open" class="outline" hidden>看解法</button>
+        </div>
+        <div id="hint" hidden></div>
+        <div id="choices" class="choices" role="group" aria-label="答案選項"></div>
+        <p id="feedback" role="status" tabindex="-1"></p>
+        <div class="practice-nav">
+          <button type="button" class="outline" id="previous">上一題</button>
+          <button type="button" id="next">下一題</button>
+        </div>
+      </section>
+    </section>
+  </main>
+  <dialog id="worksheet" aria-labelledby="worksheet-title">
+    <div class="worksheet-controls">
+      <div><h2 id="worksheet-title">個別化 A4 學習單</h2><p>10 題 · 兩頁 · 每頁 5 題。可預覽、列印或另存 PDF。</p></div>
+      <button type="button" id="worksheet-print">列印</button>
+      <form method="dialog"><button type="submit" class="outline">關閉</button></form>
+    </div>
+    <div class="worksheet-scope">
+      <label>評量單元<select id="worksheet-unit"></select></label>
+      <label>練習範圍<select id="worksheet-scope"></select></label>
+      <label>評量日期<input type="text" id="worksheet-date" maxlength="24" placeholder="留空由學生填寫"></label>
+    </div>
+    <fieldset class="worksheet-settings">
+      <legend>學習支援</legend>
+      <label><input type="checkbox" id="worksheet-grid" checked> 計算對齊格</label>
+      <label><input type="checkbox" id="worksheet-color" checked> 彩色題圖</label>
+      <label><input type="checkbox" id="worksheet-zihi" checked> 字嗨注音標楷</label>
+    </fieldset>
+    <div id="worksheet-pages"></div>
+    <details class="answer-key"><summary>教師用解答</summary><ol id="worksheet-answers"></ol></details>
+  </dialog>
+  <noscript><p>請啟用 JavaScript，以載入課程與練習。</p></noscript>
+</body>
+</html>

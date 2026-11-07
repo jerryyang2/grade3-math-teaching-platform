@@ -1,0 +1,21 @@
+@font-face {
+  font-family:"Zihi Reading";
+  src:url("../assets/fonts/BpmfZihiKaiStd-Regular.woff2") format("woff2");
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  unicode-range:U+3100-312F,U+31A0-31BF,U+3400-4DBF,U+4E00-9FFF,U+F900-FAFF,U+20000-2FFFF,U+E0100-E01EF;
+}
+:root { --zihi-reading:"Zihi Reading","Bpmf Zihi Kai Std","字嗨注音標楷",sans-serif; }
+#question,#hint,#choices button,#concept,.course-prompt,.course-hint,.course-learning-steps,.course-team .choices button,
+#course-game-stage .choices button,#course-island-stage .choices button,
+#practice-question-text,#practice-options :is(button,.option-text),#practice-ladder-box,.practice-opt-btn,
+#battle-question-text,.battle-option,.task-prompt,.task-question,.choice,.mission-prompt,
+.worksheet-zihi :is(.worksheet-prompt,.worksheet-options,.study-table),.ws-zihi .ws-page-art text[data-reading-font] {
+  font-family:var(--zihi-reading);
+  line-height:1.65;
+  font-weight:400;
+}
+#practice-question-figure text,#figure text,.worksheet-zihi .math-figure text { font-family:var(--zihi-reading); }
+.zihi-font,#practice-options .option-text { font-family:var(--zihi-reading) !important; }
+:root { --font-zihi:var(--zihi-reading); }

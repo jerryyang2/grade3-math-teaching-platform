@@ -1,0 +1,82 @@
+# 作業系統與編輯器的本機檔案
+.DS_Store
+._*
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# 本機環境與機密（範例檔只能填入無效佔位值）
+.env
+.env.*
+!.env.example
+!.env.*.example
+.npmrc
+.netrc
+.pypirc
+credentials.json
+credentials.*.json
+service-account*.json
+service_account*.json
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+id_rsa
+id_ed25519
+
+# 開發相依套件、快取與暫存產物
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.cache/
+.pytest_cache/
+.playwright/
+playwright-report/
+test-results/
+coverage/
+*.log
+*.tmp
+*.bak
+
+# 本機代理工作資料
+/Codex/
+/.codex/
+/.gemini/
+
+# 真實學生紀錄與匯出資料請放在以下本機專用目錄
+private/
+student-data/
+exports/
+backups/
+
+# 網頁下載的學習紀錄及教室截圖（含瀏覽器加上序號的副本）
+math-learning-records.json
+math-learning-records (*).json
+math-classroom-observations.json
+math-classroom-observations (*).json
+math-classroom-*.png
+
+# 本機專案筆記，不發布到 GitHub
+/notes.md
+
+# 兩學期的本機產出與製作暫存，不發布至網站或 GitHub
+/output/
+/tmp/
+/upper/output/
+/upper/tmp/
+/慢慢把數學玩懂_三下學習單彙整_48份.pdf
+
+# Local submission drafts and deployment output
+/參賽資料/
+/參賽原稿/
+/_site/
+
+# 三上副本的本機代理工作資料
+/upper/Codex/

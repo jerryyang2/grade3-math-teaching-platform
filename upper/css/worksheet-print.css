@@ -1,0 +1,22 @@
+/* 學習單獨立預覽與列印共用版型；列印的 10mm 邊界只由 @page 設定。 */
+@page { size: A4 portrait; margin: 10mm; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 0; color: #000; background: #e8e9eb; font-family: 'Microsoft JhengHei', sans-serif; line-height: 1.35; }
+.print-preview-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; padding: 12px 20px; color: #1f2937; background: #eef2ff; font: 14px/1.5 'Microsoft JhengHei', sans-serif; border-bottom: 1px solid #c7d2fe; }
+.print-preview-controls button { padding: 10px 16px; min-height: 44px; border: 2px solid #284f3b; border-radius: 8px; color: #fff; background: #245a40; font: inherit; font-weight: 800; cursor: pointer; }
+.print-preview-controls p { margin: 0; }
+.print-preview-controls span { display: block; }
+.ws-sheet { width: 210mm; height: 297mm; margin: 18px auto; background: #fff; box-shadow: 0 2px 12px #0002; overflow: hidden; }
+.ws-readable { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.ws-page-art { display: block; width: 100%; height: 100%; }
+.print-preview-controls select { min-height: 38px; padding: 5px; font: inherit; background: #fff; color: #222; border: 1px solid #889; border-radius: 6px; }
+#worksheet-error { padding: 16px; color: #a11; background: #fff; }
+@media (max-width: 820px) { .ws-sheet { width: 100%; height: auto; aspect-ratio: 210 / 297; } }
+/* SVG 座標含同一個 10mm 內邊界；列印扣除該區，再由 @page 還原，避免重複加邊界。 */
+@media print {
+  body { background: #fff; }
+  .print-preview-controls { display: none !important; }
+  .ws-sheet { position: relative; width: 190mm; height: 277mm; margin: 0; box-shadow: none; overflow: hidden; break-after: page; page-break-after: always; }
+  .ws-sheet:last-child { break-after: auto; page-break-after: auto; }
+  .ws-page-art { position: absolute; left: -10mm; top: -10mm; width: 210mm; height: 297mm; max-width: none; }
+}

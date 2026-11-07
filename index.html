@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="115 學年度南一版一至六年級數學備課平台，選擇年級與學期，開始備課與練習。">
+  <title>選擇學期｜慢慢把數學玩懂</title>
+  <link rel="icon" type="image/svg+xml" href="assets/icons/semester-book.svg">
+  <link rel="stylesheet" href="css/semester-menu.css?v=all-grades-20261106">
+  <script>
+    const unit = new URLSearchParams(location.search).get('unit');
+    if (/^u(?:[1-9]|10)$/.test(unit)) {
+      location.replace('lower.html' + location.search + location.hash);
+    }
+  </script>
+</head>
+<body>
+  <main class="semester-menu">
+    <p class="semester-kicker"><img src="assets/icons/semester-book.svg" width="38" height="38" alt=""> 115 學年度 · 南一版</p>
+    <h1>慢慢把數學玩懂</h1>
+    <p class="semester-school">大埤國小學習教室</p>
+    <p class="semester-intro">選擇年級和學期，開始今天的數學課。</p>
+    <nav class="semester-cards" aria-label="一到六年級數學學期選單">
+      <section class="grade-group" aria-labelledby="grade-1"><h2 id="grade-1">一年級</h2>
+        <a class="semester-card grade1-upper" href="courses/index.html?grade=1&amp;term=upper">
+          <h3>上學期</h3>
+          <span class="semester-number">第一冊 · 9 單元</span>
+          <p>數到 30、加減、形狀、讀鐘錶</p>
+          <span class="semester-cta">進入一上 <span aria-hidden="true">→</span></span>
+        </a>
+        <a class="semester-card grade1-lower" href="courses/index.html?grade=1&amp;term=lower">
+          <h3>下學期</h3>
+          <span class="semester-number">第二冊 · 9 單元</span>
+          <p>數到 100、長度、月曆、錢幣</p>
+          <span class="semester-cta">進入一下 <span aria-hidden="true">→</span></span>
+        </a>
+      </section>
+      <section class="grade-group" aria-labelledby="grade-2"><h2 id="grade-2">二年級</h2>
+        <a class="semester-card grade2-upper" href="courses/index.html?grade=2&amp;term=upper">
+          <h3>上學期</h3>
+          <span class="semester-number">第三冊 · 10 單元</span>
+          <p>數到 300、公分、乘法、幾時幾分</p>
+          <span class="semester-cta">進入二上 <span aria-hidden="true">→</span></span>
+        </a>
+        <a class="semester-card grade2-lower" href="courses/index.html?grade=2&amp;term=lower">
+          <h3>下學期</h3>
+          <span class="semester-number">第四冊 · 10 單元</span>
+          <p>數到 1000、公尺、平分、單位分數</p>
+          <span class="semester-cta">進入二下 <span aria-hidden="true">→</span></span>
+        </a>
+      </section>
+      <section class="grade-group" aria-labelledby="grade-3"><h2 id="grade-3">三年級</h2>
+        <a class="semester-card semester-upper" href="upper/index.html">
+          <h3>上學期</h3>
+          <span class="semester-number">第五冊 · 9 單元</span>
+          <p>一萬以內的數、乘除、毫米、容量</p>
+          <span class="semester-cta">進入三上 <span aria-hidden="true">→</span></span>
+        </a>
+        <a class="semester-card semester-lower" href="lower.html">
+          <h3>下學期</h3>
+          <span class="semester-number">第六冊 · 10 單元</span>
+          <p>除法、時間、面積、小數、表格</p>
+          <span class="semester-cta">進入三下 <span aria-hidden="true">→</span></span>
+        </a>
+      </section>
+      <section class="grade-group" aria-labelledby="grade-4"><h2 id="grade-4">四年級</h2>
+        <a class="semester-card grade4-upper" href="grade4/index.html?term=upper">
+          <h3>上學期</h3>
+          <span class="semester-number">第七冊 · 10 單元</span>
+          <p>一億以內的數、角度、分數、公里</p>
+          <span class="semester-cta">進入四上 <span aria-hidden="true">→</span></span>
+        </a>
+        <a class="semester-card grade4-lower" href="grade4/index.html?term=lower">
+          <h3>下學期</h3>
+          <span class="semester-number">第八冊 · 10 單元</span>
+          <p>四邊形、統計、等值分數、體積</p>
+          <span class="semester-cta">進入四下 <span aria-hidden="true">→</span></span>
+        </a>
+      </section>
+      <section class="grade-group" aria-labelledby="grade-5"><h2 id="grade-5">五年級</h2>
+        <a class="semester-card grade5-upper" href="courses/index.html?grade=5&amp;term=upper">
+          <h3>上學期</h3>
+          <span class="semester-number">第九冊 · 10 單元</span>
+          <p>因數倍數、異分母分數、面積</p>
+          <span class="semester-cta">進入五上 <span aria-hidden="true">→</span></span>
+        </a>
+        <a class="semester-card grade5-lower" href="courses/index.html?grade=5&amp;term=lower">
+          <h3>下學期</h3>
+          <span class="semester-number">第十冊 · 10 單元</span>
+          <p>小數乘除、百分率、容積和容量</p>
+          <span class="semester-cta">進入五下 <span aria-hidden="true">→</span></span>
+        </a>
+      </section>
+      <section class="grade-group" aria-labelledby="grade-6"><h2 id="grade-6">六年級</h2>
+        <a class="semester-card grade6-upper" href="courses/index.html?grade=6&amp;term=upper">
+          <h3>上學期</h3>
+          <span class="semester-number">第十一冊 · 8 單元</span>
+          <p>質因數分解、圓、比和速率</p>
+          <span class="semester-cta">進入六上 <span aria-hidden="true">→</span></span>
+        </a>
+        <a class="semester-card grade6-lower" href="courses/index.html?grade=6&amp;term=lower">
+          <h3>下學期</h3>
+          <span class="semester-number">第十二冊 · 6 單元</span>
+          <p>圓形圖、比例尺、解題、柱體</p>
+          <span class="semester-cta">進入六下 <span aria-hidden="true">→</span></span>
+        </a>
+      </section>
+    </nav>
+  </main>
+</body>
+</html>

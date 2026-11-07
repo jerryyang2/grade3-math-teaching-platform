@@ -1,0 +1,64 @@
+#course-teacher-tools { position:relative; }
+#course-teacher-tools > .course-tool-box {
+  position:absolute; inset-block-start:100%; inset-inline-start:0; z-index:12;
+  width:min(26rem, calc(100vw - 2rem)); max-height:min(64dvh, 36rem); overflow:auto;
+  padding:.55rem; border:1px solid #86a690; border-radius:.75rem; background:#fffdf7;
+  box-shadow:0 .5rem 1.4rem #233d2b30;
+}
+.semester-tool-heading { padding:.45rem .55rem; background:#e8f2de; color:#203d2d; border-radius:.4rem; }
+#course-teacher-tools .semester-tool-item {
+  display:grid; grid-template-columns:2.5rem minmax(0, 1fr); align-items:center; gap:.65rem;
+  width:100%; padding:.55rem; border:1px solid transparent; background:#fffdf7; color:#203d2d; text-align:start;
+}
+#course-teacher-tools .semester-tool-item:hover,
+#course-teacher-tools .semester-tool-item[aria-pressed="true"] { background:#e8f2de; border-color:#87a779; }
+.semester-tool-icon {
+  display:grid; place-items:center; aspect-ratio:1; background:#e8efd9; border-radius:.65rem; font-size:1.35rem;
+}
+.semester-tool-item small { display:block; color:#3d5143; font-weight:500; }
+.semester-tool-extras { display:grid; gap:.45rem; border-top:1px solid #b7c4a6; padding-top:.55rem; }
+@media (max-width:650px) {
+  .course-top-tools #course-teacher-tools { position:static; }
+  #course-teacher-tools > .course-tool-box { inset:auto 1rem; width:auto; }
+}
+#semester-teaching-dialog {
+  width:min(50rem, calc(100vw - 2rem)); max-height:90dvh; overflow:auto;
+  border:1px solid #86a690; border-radius:.85rem; padding:1rem; background:#fffdf7; color:#203d2d;
+}
+#semester-teaching-dialog::backdrop { background:#172f25aa; }
+#semester-teaching-dialog > header { display:flex; gap:1rem; justify-content:space-between; align-items:center; margin-bottom:.75rem; }
+#semester-teaching-content { display:grid; gap:.7rem; }
+#semester-teaching-content label { display:grid; gap:.25rem; }
+#semester-teaching-content textarea { width:100%; padding:.55rem; font:inherit; color:inherit; border:1px solid #567763; border-radius:.5rem; }
+.semester-briefing { display:grid; gap:.55rem; margin:0; }
+.semester-briefing div { padding:.6rem; border-radius:.5rem; background:#e8f2de; }
+.semester-briefing dt { font-weight:800; }
+.semester-briefing dd { margin:0; }
+#semester-teaching-dialog #calmCornerModal {
+  position:static; width:auto; height:auto; padding:0; background:none; backdrop-filter:none;
+  --border-color:#86a690; --bg-subtle:#edf4e8; --radius-lg:.75rem;
+}
+#semester-teaching-dialog .calm-corner-modal { max-height:none; }
+#semester-teaching-dialog .calm-tabs-nav { flex-wrap:wrap; }
+#semester-family-slips { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.5rem; }
+#semester-family-slips article { padding:.6rem; border:1px dashed #567763; break-inside:avoid; }
+.spotlight-layer { z-index:2147483010; }
+#switch-access-widget {
+  position:fixed; inset:auto auto 1rem 1rem; z-index:2147483011; max-width:calc(100vw - 2rem);
+  padding:.65rem; background:#fffdf7; color:#203d2d; border:2px solid #a35b0a; border-radius:.7rem;
+}
+#switch-access-widget .switch-widget-controls { display:flex; align-items:center; gap:.3rem; }
+.switch-scan-highlight { outline:4px solid #a35b0a !important; outline-offset:3px; }
+.course-high-contrast #course-teacher-tools :is(.course-tool-box, .semester-tool-item, .semester-tool-icon, .semester-tool-heading) {
+  background:#181818; color:#fff; border-color:#ffe28d;
+}
+.course-high-contrast #course-teacher-tools .semester-tool-item small { color:#fff; }
+@media print {
+  body:has(#semester-teaching-dialog[open][data-tool="communication"]) > :not(#semester-teaching-dialog),
+  #semester-teaching-dialog[open][data-tool="communication"] :is(header,label,summary,.course-action-row),
+  #semester-teaching-dialog[open][data-tool="communication"] #semester-teaching-content > p { display:none !important; }
+  #semester-teaching-dialog[open][data-tool="communication"] {
+    position:static; width:auto; max-width:none; max-height:none; margin:0; padding:0; border:0; overflow:visible;
+  }
+  #semester-teaching-dialog::backdrop { display:none; }
+}

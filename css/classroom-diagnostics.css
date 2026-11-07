@@ -1,0 +1,23 @@
+.prep-alignment { margin-bottom: 18px; }
+.prep-alignment-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+.prep-alignment-grid, #diagnostic-tasks { display: grid; gap: 12px; margin: 12px 0; }
+.prep-alignment-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.prep-alignment-grid > div, .diagnostic-task, .diagnostic-history-entry {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 12px 16px;
+  min-width: 0;
+}
+.diagnostic-task legend { font-weight: 800; padding: 0 6px; }
+.diagnostic-task .evidence-toolbar { margin-bottom: 0; }
+.diagnostic-task summary, .diagnostic-history-entry summary { cursor: pointer; font-weight: 700; }
+.diagnostic-history-entry { margin-top: 8px; }
+#diagnostic-status:not(:empty) { margin: 12px 0; font-weight: 700; }
+#diagnostic-title, #iep-evidence-student { scroll-margin-top: calc(var(--edge-nav-bottom, 84px) + 12px); }
+.high-contrast-mode :is(.prep-alignment-grid > div, .diagnostic-task, .diagnostic-history-entry) { background: #18181b; border-color: #facc15; color: #fff; }
+.high-contrast-mode .prep-alignment a { color: #fde68a; }
+@media (max-width: 620px) {
+  .prep-alignment-grid { grid-template-columns: 1fr; }
+  .diagnostic-task { padding-inline: 10px; }
+}

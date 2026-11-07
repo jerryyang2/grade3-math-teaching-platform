@@ -1,0 +1,97 @@
+/* 網站名稱與首頁入口；窄螢幕可自然換行。 */
+.storybook-site .brand-section { color: inherit; text-decoration: none; border-radius: 8px; }
+.storybook-site .brand-logo { flex-shrink: 0; }
+.storybook-site .brand-copy { min-width: 0; }
+.storybook-site .brand-title { gap: 0; font-size: clamp(1.125rem, 2vw, 1.375rem); line-height: 1.35; letter-spacing: .01em; }
+.storybook-site .brand-name > span { display: inline-block; max-width: 100%; }
+.storybook-site .brand-caption { display: block; border: 0; padding: 0; margin-top: 2px; font-size: .875rem; }
+.storybook-site .brand-section:hover .brand-name { text-decoration: underline; text-underline-offset: .2em; }
+/* 主選單固定單排；窄螢幕可橫向捲動，保留清楚文字與觸控範圍。 */
+.storybook-site .main-nav .nav-container { max-width: 1440px; flex-wrap: nowrap; justify-content: safe center; gap: 2px; padding-inline: 12px; overflow-x: auto; }
+.storybook-site .main-nav :is(.nav-tab,.nav-island-link) { flex: 0 0 auto; white-space: nowrap; padding: 10px; min-height: 48px; }
+.storybook-site .main-nav :is(.nav-tab,.nav-island-link):focus-visible { outline-offset: -4px; }
+html[lang="en"] .storybook-site .main-nav :is(.nav-tab,.nav-island-link) { padding-inline: 8px; font-size: .9rem; }
+.storybook-site .unit-detail-layout { grid-template-columns: minmax(0, 1fr); }
+.prep-guide-heading { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 20px; }
+.prep-guide-heading h2 { color: #174d3d; font-size: 1.6rem; margin: 5px 0; }
+.prep-guide-heading .home-kicker { color: #68501b; }
+.prep-guide-heading p { margin: 5px 0; color: #2b4837; }
+.prep-guide-heading label { display: grid; gap: 6px; min-width: 250px; font-weight: 800; color: #214b35; }
+.prep-guide-heading select { min-height: 48px; width: 100%; }
+.prep-guide-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; align-items: start; }
+.prep-guide-grid > * { min-width: 0; margin: 0; }
+.prep-guide-grid :is(.prereq-body,.clinic-bad-example,.clinic-root-cause,.clinic-buster-solution,.cra-desc) { font-size: 1rem; line-height: 1.8; }
+.storybook-site.high-contrast-mode .prep-guide-heading :is(h2,p,label,.home-kicker) { color: #fff; }
+.storybook-site.high-contrast-mode .prep-guide-grid :is(.card,.prerequisite-card,.misconception-clinic-card,.cra-stage-box,.prereq-body,.prereq-check,.clinic-bad-example,.clinic-root-cause,.clinic-buster-solution,[style*='background']) { background: #18181b !important; color: #fff !important; border-color: #facc15 !important; }
+.storybook-site.high-contrast-mode .prep-guide-grid :is(strong,p,div,span) { color: #fff !important; }
+/* 遮罩不攔截操作；設定與退出按鈕保持清晰。 */
+.spotlight-layer { position: fixed; inset: 0; pointer-events: none; z-index: 100000; }
+.spotlight-layer[hidden] { display: none !important; }
+.spotlight-mask { position: absolute; inset: 0; background: radial-gradient(circle var(--spot-radius, 160px) at var(--spot-x, 50vw) var(--spot-y, 45vh), transparent 0, transparent calc(100% - 16px), rgb(15 23 42 / .72) 100%); }
+.spotlight-controls { position: absolute; left: max(16px, env(safe-area-inset-left)); bottom: max(16px, env(safe-area-inset-bottom)); display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; width: min(390px, calc(100vw - 104px)); padding: 12px; background: #fffdf5; color: #172f25; border: 2px solid #72512b; border-radius: 14px; box-shadow: 0 4px 20px #0003; pointer-events: auto; font: 700 16px/1.5 sans-serif; }
+.spotlight-controls label { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.spotlight-controls input { width: 125px; max-width: 100%; accent-color: #bf2828; }
+.spotlight-controls output { min-width: 30px; }
+.spotlight-controls button { min-height: 44px; padding: 7px 12px; background: #bf2828; color: #fff; border: 1px solid #8e1d1d; border-radius: 9px; font: inherit; cursor: pointer; }
+.spotlight-controls small { display: block; flex: 1 0 100%; font-size: 14px; }
+.spotlight-controls :focus-visible { outline: 3px solid #1d5fba; outline-offset: 3px; }
+@media (max-width: 700px) {
+  .storybook-site .nav-container { flex-wrap: nowrap; padding-inline: 12px; }
+  .storybook-site .nav-tab { flex: 0 0 auto; }
+  .prep-guide-heading { align-items: stretch; flex-direction: column; gap: 12px; }
+  .prep-guide-heading label { min-width: 0; }
+  .prep-guide-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media print { .spotlight-layer { display: none !important; } }
+
+/* 存摺入口併入頂部工具列，收合後不占一整列。 */
+#btn-student-bank { display:inline-flex; align-items:center; gap:7px; white-space:nowrap; }
+#btn-student-bank[aria-expanded="true"] { background:#fff0c8; border-color:#967023; }
+#btn-student-bank[aria-expanded="true"] .student-bank-toggle-arrow { transform:rotate(180deg); }
+#student-bank-panel[hidden] { display:none; }
+#student-bank-panel .student-bank-inner { padding-inline:24px; }
+
+/* 學習單設定：桌面一次看完四個欄位、四個支援選項與列印操作。 */
+#worksheet-modal { padding:12px; }
+#worksheet-modal .worksheet-settings { max-width:960px; max-height:calc(100dvh - 24px); padding:20px; display:flex; flex-direction:column; gap:12px; text-align:left; }
+.worksheet-settings-header { display:grid; grid-template-columns:32px minmax(0,1fr) 44px; gap:12px; align-items:start; flex-shrink:0; padding-bottom:12px; border-bottom:1px solid #cbd5e1; }
+.worksheet-settings-icon { font-size:28px; line-height:1.5; }
+.worksheet-settings-header h3 { margin:0 0 3px; font-size:1.25rem; line-height:1.4; font-weight:900; color:#1e1b4b; }
+.worksheet-settings-subtitle { display:block; font-size:.85rem; line-height:1.5; font-weight:700; color:#4f46b5; }
+.worksheet-settings-header p { margin:5px 0 0; font-size:.9rem; line-height:1.5; color:#334155; }
+#btn-close-ws-modal { width:44px; height:44px; background:transparent; border:1px solid #cbd5e1; border-radius:8px; color:#475569; font-size:24px; cursor:pointer; }
+.worksheet-settings-body { min-height:0; overflow-y:auto; display:grid; gap:14px; padding:3px 4px; }
+.worksheet-settings-fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px 20px; }
+.worksheet-settings-field { min-width:0; }
+.worksheet-settings-field label { display:block; margin:0 0 4px; font-size:.95rem; line-height:1.5; font-weight:800; color:#334155; }
+#worksheet-modal .form-control { width:100%; min-height:44px; padding:8px 12px; font-size:1rem; font-weight:700; }
+.worksheet-settings-field p { margin:5px 0 0; font-size:.85rem; line-height:1.5; color:#475569; }
+.worksheet-settings-date-label { display:flex; align-items:start; justify-content:space-between; gap:8px; }
+.worksheet-settings-date-label label { flex:1; }
+#btn-ws-today { flex-shrink:0; min-height:28px; padding:4px 8px; background:#e0e7ff; color:#3730a3; border:0; border-radius:6px; font-size:.8rem; font-weight:700; cursor:pointer; }
+.worksheet-settings-supports { min-width:0; margin:0; padding:8px 12px 12px; border:1px dashed #9baec5; border-radius:10px; background:#f8fafc; }
+.worksheet-settings-supports legend { padding:0 5px; color:#1e40af; font-size:.9rem; font-weight:800; }
+.worksheet-settings-options { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px 16px; }
+.worksheet-settings-options label { display:flex; align-items:center; gap:8px; min-height:40px; font-size:.9rem; line-height:1.5; cursor:pointer; }
+.worksheet-settings-options input { flex-shrink:0; width:18px; height:18px; accent-color:#21663d; }
+.worksheet-settings-actions { display:flex; flex-shrink:0; justify-content:flex-end; gap:12px; padding-top:12px; border-top:1px solid #cbd5e1; }
+#worksheet-modal .worksheet-settings-actions .kid-btn { min-height:44px; margin:0; padding:8px 20px; }
+.storybook-site.high-contrast-mode #worksheet-modal :is(.worksheet-settings,.worksheet-settings-supports) { background:#18181b; border-color:#facc15; }
+.storybook-site.high-contrast-mode #worksheet-modal :is(h3,p,label,legend,.worksheet-settings-subtitle,#btn-close-ws-modal) { color:#fff; }
+@media(max-width:700px) {
+  #worksheet-modal .worksheet-settings { padding:14px; gap:10px; }
+  .worksheet-settings-header { grid-template-columns:minmax(0,1fr) 44px; gap:8px; }
+  .worksheet-settings-icon { display:none; }
+  .worksheet-settings-header h3 { font-size:1.125rem; }
+  .worksheet-settings-fields,.worksheet-settings-options { grid-template-columns:minmax(0,1fr); }
+  .worksheet-settings-actions { gap:8px; }
+  #worksheet-modal #btn-ws-print { flex:1; padding-inline:10px; }
+  #student-bank-panel .student-bank-inner { padding-inline:12px; }
+}
+.storybook-site.high-contrast-mode #btn-student-bank[aria-expanded="true"] { background:#facc15; color:#111 !important; border-color:#facc15; }
+
+/* 拔河卡片：推薦文字位於繩子圖示與玩法標籤之間。 */
+#tab-arcade .arcade-card-banner--recommended { display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:10px; }
+#tab-arcade .arcade-card-recommendation { color:#9a3412; font-size:1.25rem; font-weight:900; line-height:1.4; text-align:center; white-space:nowrap; }
+@media(max-width:420px) { #tab-arcade .arcade-card-banner--recommended { gap:6px; } #tab-arcade .arcade-card-recommendation { font-size:1rem; } }
+html[lang="en"] #tab-arcade .arcade-card-recommendation { font-size:1rem; white-space:normal; overflow-wrap:anywhere; }

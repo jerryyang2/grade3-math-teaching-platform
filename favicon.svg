@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>慢慢把數學玩懂三下：森林裡的數學方格</title>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="#244b3b" stroke="#e6d8ae" stroke-width="2"/>
+  <path d="M13 24h31v29H13z" fill="#f9edcb" stroke="#132c22" stroke-width="2"/>
+  <path d="M23 24v29m10-29v29M13 34h31M13 44h31" fill="none" stroke="#244b3b" stroke-width="1.6"/>
+  <path d="M33 24h11v10H33zM13 44h10v9H13z" fill="#97b58c" stroke="#244b3b" stroke-width="1.6"/>
+  <path d="M31 21C33 11 42 8 54 10c-2 12-11 18-23 11Z" fill="#b7d29c" stroke="#132c22" stroke-width="2"/>
+  <path d="m29 24 16-9" stroke="#244b3b" stroke-width="1.8" stroke-linecap="round"/>
+</svg>

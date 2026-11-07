@@ -1,0 +1,217 @@
+/* 首頁浮島主景與操作卡共用一個外框。 */
+.floating-islands-welcome.storybook-welcome {
+  display: grid;
+  overflow: hidden;
+  border: 2px solid #557451;
+  border-radius: clamp(14px,2vw,24px);
+  margin: 0 0 1rem;
+  grid-template-columns: minmax(0,1.3fr) minmax(0,1fr);
+  grid-template-areas: "scene scene" "friends launch";
+  align-items: stretch;
+  gap: 0;
+  padding: 0;
+  background: #faf3e1;
+  border-color: #557451;
+  box-shadow: 0 4px 0 #d9ceae;
+}
+.floating-islands-welcome[hidden], .floating-islands-welcome::before { display: none; }
+.floating-islands-scene {
+  grid-area: scene;
+  position: relative;
+  display: grid;
+  align-items: center;
+  min-height: clamp(285px, 29vw, 410px);
+  background: #d7e9cf;
+}
+.floating-islands-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 18%;
+}
+.floating-islands-welcome .storybook-welcome-copy {
+  position: relative;
+  z-index: 1;
+  width: fit-content;
+  max-width: calc(100% - 32px);
+  margin: 24px clamp(16px, 3vw, 44px);
+  padding: clamp(16px, 2vw, 28px);
+  background: #fff9e9;
+  border: 1px solid #aa8950;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px #263b2f38;
+}
+.floating-islands-welcome h2 {
+  margin: 8px 0;
+  font-family: inherit;
+  font-size: clamp(1.85rem, 3.2vw, 3rem);
+  font-weight: 850;
+  line-height: 1.2;
+  color: #173f30;
+  letter-spacing: 0;
+}
+.floating-islands-welcome h2 em { color: #91380f; font-style: normal; white-space: normal; }
+.floating-islands-welcome h2 em::after { display: none; }
+.floating-islands-welcome .storybook-welcome-copy p { max-width: 30ch; margin: 0; color: #263e32; font-weight: 650; }
+.floating-islands-welcome .storybook-eyebrow {
+  display: inline-block;
+  margin: 0;
+  padding: .35rem .65rem;
+  background: #205a41;
+  color: #fff;
+  border-radius: .45rem;
+  font-weight: 750;
+}
+.floating-islands-welcome .lesson-quick-picker label { color: #294931; font-weight: 750; }
+.floating-islands-welcome .lesson-quick-picker label span { display: block; }
+.floating-islands-welcome .storybook-launch .course-action-row { margin: 0; }
+.floating-islands-welcome.storybook-welcome .storybook-launch {
+  grid-area: launch;
+  align-self: center;
+  display: grid;
+  align-items: stretch;
+  margin: 16px clamp(14px,2vw,26px) 16px 0;
+  padding: 14px;
+  gap: 10px;
+  background: #fffef8;
+  border: 2px solid #68815e;
+  border-radius: 12px;
+  box-shadow: none;
+}
+.floating-islands-welcome .lesson-quick-picker { display: grid; gap: 6px; }
+.floating-islands-welcome .lesson-quick-picker select { width: 100%; min-height: 44px; }
+.floating-islands-welcome.storybook-welcome .animal-scene {
+  grid-area: friends;
+  min-width: 0;
+  margin: 0;
+  padding: 12px clamp(12px,2vw,24px);
+  background: transparent;
+  border: 0;
+}
+.floating-friends-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px 14px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.floating-friends-heading h3 { margin: 0; color: #294931; font-size: 1.14rem; }
+.floating-friends-heading .storybook-greet {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  min-height: 44px;
+  padding: 5px 12px;
+  border: 2px solid #315c43;
+  border-radius: 2rem;
+  background: #fff9e9;
+  color: #234b35;
+  font-weight: 750;
+}
+.floating-friends-heading .storybook-greet svg { width: 1.25rem; height: 1.25rem; fill: currentColor; }
+.floating-islands-welcome .animal-garden {
+  position: static;
+  display: grid;
+  grid-template-columns: repeat(5,minmax(0,1fr));
+  gap: clamp(4px,1vw,12px);
+}
+.floating-islands-welcome .animal-garden .animal-friend {
+  position: static;
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 4px;
+  width: 100%;
+  height: auto;
+  min-height: 44px;
+  transform: none;
+  transition: none;
+  font: inherit;
+  text-align: center;
+  border-radius: 8px;
+  border: 0;
+  background: transparent;
+  padding: 3px;
+}
+.floating-islands-welcome .plush-portrait { width: min(100%, 106px); }
+.plush-name {
+  color: #21372b;
+  background: var(--portrait-tint, #f3dfb2);
+  font-size: .94rem;
+  font-weight: 750;
+  padding: 2px 6px;
+  border-radius: 6px;
+  line-height: 1.35;
+}
+.animal-bear { --portrait-tint: #f1d7b3; }
+.animal-panda { --portrait-tint: #c6e3d7; }
+.animal-fox { --portrait-tint: #f5d6c6; }
+.animal-rabbit { --portrait-tint: #e8def3; }
+.floating-islands-welcome .is-gathered .plush-portrait { outline: 2px solid #48734e; outline-offset: 1px; }
+.floating-islands-welcome .is-cheering .plush-portrait { animation: semester-friend-cheer .65s ease-out; }
+.floating-islands-welcome.storybook-welcome .animal-scene .storybook-speech {
+  margin: 8px 0 0;
+  background: #fffef9;
+  border: 1px solid #83967a;
+  border-radius: 8px;
+  padding: 5px 9px;
+}
+@media (max-width: 700px) {
+  .floating-islands-welcome.storybook-welcome {
+    grid-template-columns: minmax(0,1fr);
+    grid-template-areas: "scene" "friends" "launch";
+  }
+  .floating-islands-scene { min-height: 0; background: transparent; }
+  .floating-islands-art { position: static; height: clamp(150px,43vw,225px); object-position: center 33%; }
+  .floating-islands-welcome .storybook-welcome-copy {
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding: 14px 16px 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .floating-islands-welcome h2 br { display: none; }
+  .floating-islands-welcome.storybook-welcome .storybook-launch { margin: 0 12px 12px; }
+}
+@media (max-width: 450px) {
+  .floating-islands-welcome .animal-garden { grid-template-columns: repeat(6,minmax(0,1fr)); row-gap: 10px; }
+  .floating-islands-welcome .animal-friend { grid-column: span 2; }
+  .floating-islands-welcome .animal-friend:nth-child(4) { grid-column: 2 / span 2; }
+  .floating-islands-welcome .plush-portrait { width: min(100%, 82px); }
+}
+.storybook-site.calm-focus-mode .floating-islands-welcome .floating-islands-scene { min-height: 0; background: none; }
+.storybook-site.calm-focus-mode .floating-islands-welcome :is(.floating-islands-art,.animal-scene) { display: none; }
+.storybook-site.calm-focus-mode .floating-islands-welcome .storybook-welcome-copy { background: none; border: 0; box-shadow: none; margin: 12px; padding: 0; }
+.storybook-site.calm-focus-mode .floating-islands-welcome .storybook-launch { margin: 12px; }
+:is(.high-contrast-mode,.course-high-contrast) .floating-islands-welcome.storybook-welcome :is(.floating-islands-scene,.storybook-welcome-copy,.storybook-launch,.animal-scene .storybook-speech,.lesson-quick-picker label,.storybook-welcome-copy p,h2,h2 em) { color: #fff; background: #18181b; border-color: #facc15; }
+:is(.high-contrast-mode,.course-high-contrast) .floating-islands-welcome.storybook-welcome .floating-islands-art { display: none; }
+:is(.high-contrast-mode,.course-high-contrast) .floating-islands-welcome.storybook-welcome .floating-islands-scene { min-height: 0; }
+:is(.high-contrast-mode,.course-high-contrast) .floating-friends-heading h3 { color: #fff; }
+@media (prefers-reduced-motion: reduce) {
+  .floating-islands-welcome .is-cheering .plush-portrait { animation: none; }
+}
+
+.course-high-contrast .course-welcome { background:#181818; border-color:#ffe28d; }
+@keyframes semester-friend-cheer {
+  35% { transform: translateY(-5px) rotate(-5deg); }
+  70% { transform: translateY(-2px) rotate(3deg); }
+}
+
+/* 六至十個單元平均分成兩排，依序由左至右閱讀。 */
+@media (min-width: 900px) {
+  :is(#unit-list, #unit-nav-list) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  :is(#unit-list, #unit-nav-list):has(> button:nth-child(7)) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  :is(#unit-list, #unit-nav-list):has(> button:nth-child(9)) {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}

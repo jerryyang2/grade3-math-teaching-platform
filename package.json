@@ -1,0 +1,19 @@
+{
+  "name": "grade3-math-toolkit-lower",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "cloudflare:prepare": "node scripts/prepare-cloudflare-pages.cjs",
+    "worksheets:pdf": "node scripts/sync-worksheet-pdf.cjs",
+    "worksheets:pdf:check": "node scripts/sync-worksheet-pdf.cjs --check",
+    "i18n:extract": "node scripts/i18n/extract.cjs",
+    "i18n:build": "node scripts/i18n/build.cjs",
+    "i18n:check": "node scripts/i18n/check.cjs",
+    "teacher:pdf": "python3 scripts/worksheets/build-teacher-guide.py",
+    "worksheets:grade4:pdf": "node scripts/worksheets/grade4-pdf.cjs"
+  },
+  "devDependencies": {
+    "acorn": "^8.15.0",
+    "linkedom": "^0.18.12"
+  }
+}

@@ -1,0 +1,83 @@
+.course-arcade .arcade-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.course-arcade .arcade-card, .course-arcade .arcade-player-card {
+  border: 1px solid #9caf93;
+  border-radius: 14px;
+  background: #fffdf7;
+  overflow: hidden;
+}
+.course-arcade .arcade-card { display: flex; flex-direction: column; }
+.course-arcade-banner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  min-height: 72px;
+  padding: 12px;
+  background: #fff0cb;
+  border-bottom: 1px solid #d6c08e;
+}
+.course-arcade-banner > span:first-child { font-size: 2rem; }
+.course-arcade-badge, .course-arcade-skills li {
+  border-radius: 8px;
+  background: #edf2ed;
+  color: #224637;
+  padding: 3px 8px;
+  font-size: .82rem;
+}
+.course-arcade-recommended { color: #8c331e; }
+.course-arcade-body { display: flex; flex: 1; flex-direction: column; padding: 14px; }
+.course-arcade-body h3 { margin: 0; }
+.course-arcade-body p { margin: 8px 0 12px; }
+.course-arcade-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: auto 0 12px;
+  padding: 0;
+  list-style: none;
+}
+.course-arcade .arcade-card-actions, .course-arcade-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.course-arcade-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  border: 1px solid #698772;
+  border-radius: .65rem;
+  padding: .5rem .75rem;
+  background: #f3f8ee;
+  color: #194c3e;
+  font-weight: 720;
+  text-decoration: none;
+}
+.course-arcade #arcade-player-modal { margin-bottom: 18px; scroll-margin-top: 5rem; }
+.course-arcade .arcade-player-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+}
+.course-arcade #arcade-game-frame { display: block; width: 100%; height: 750px; border: 0; }
+.course-arcade-extra { margin-top: 18px; }
+.course-arcade-extra summary { cursor: pointer; }
+.course-high-contrast .course-arcade :is(.arcade-card, .arcade-player-card, .course-arcade-banner, .course-arcade-badge, .course-arcade-skills li) {
+  color: #fff;
+  background: #181818;
+  border-color: #ffe28d;
+}
+.course-high-contrast .course-arcade-recommended { color: #ffe28d; }
+@media (max-width: 960px) {
+  .course-arcade .arcade-cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 580px) {
+  .course-arcade .arcade-cards-grid { grid-template-columns: minmax(0, 1fr); }
+}

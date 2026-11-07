@@ -1,0 +1,26 @@
+/* Place compact names below the coast in the 3D view. Keep full-size cards in flat mode. */
+#world:not(.flat) #island-labels .island-label {
+  min-height: 18px;
+  padding: 1px 5px;
+  gap: 3px;
+  border-radius: 6px;
+  font-size: 10px;
+  line-height: 1.2;
+  box-shadow: 0 1px 3px #264b5126;
+}
+#world:not(.flat) #island-labels .island-label small {
+  display: inline;
+  font-size: 9px;
+  color: inherit;
+  opacity: .8;
+}
+#world:not(.flat) #island-labels .island-label b { display: inline; }
+#world:not(.flat) #island-labels .island-label :is(.island-label-full, span[aria-hidden]) {
+  display: none;
+}
+body[data-view] #world:not(.flat) #island-labels button.island-label[aria-pressed=true] {
+  color: #fff9e5;
+  background: #264e55;
+  border-color: #f6dfb4;
+}
+#world.flat .island-label-short { display: none; }

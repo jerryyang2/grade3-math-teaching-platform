@@ -1,0 +1,35 @@
+/* 給立體群島完整的寬度，操作和任務排在地圖下方。 */
+body[data-view=landing] .expedition,
+body[data-view=lesson] .expedition { grid-template-columns:minmax(0,1fr); }
+body[data-view=landing] .world-panel,
+body[data-view=lesson] .world-panel { display:block; position:relative; top:auto; }
+body[data-view=landing] #world:not(.flat),
+body[data-view=lesson] #world:not(.flat),
+.course-world #world:not(.flat) { height:clamp(470px, 68vw, 820px); min-height:0; }
+body[data-view=landing] .map-console { border-left:0; border-top:1px solid #b7ceca; }
+.map-console #landing-label { background:#fff0bc; border-color:#b18b3e; color:#654713; }
+.course-world { width:100%; max-width:none; padding:0; margin:0; }
+@media (max-width:420px) {
+  body[data-view=landing] #world:not(.flat),
+  body[data-view=lesson] #world:not(.flat),
+  .course-world #world:not(.flat) { height:400px; }
+}
+
+/* 裝置不能繪製 3D 時，仍可從島名清單進入任務。 */
+body[data-view] #world.flat { height:auto; min-height:0; padding:12px; background:#f3f6ed; }
+#world.flat #island-labels { position:static; grid-template-columns:repeat(auto-fit,minmax(min(100%,9rem),1fr)); grid-template-rows:none; padding:0; gap:8px; }
+#world.flat .island-label {
+  flex-direction:row;
+  justify-content:flex-start;
+  min-height:44px;
+  padding:6px 8px;
+  border-radius:8px;
+  box-shadow:none;
+  background:#fffdf4;
+  text-align:left;
+  font-size:14px;
+}
+#world.flat .island-label span[aria-hidden] { display:none; }
+#world.flat :is(.compass-rose,.map-watermark) { display:none; }
+#world.flat .map-status { position:static; padding:6px 0 0; background:none; }
+.world-panel:has(#world.flat) .walking-help::after { content:none; }

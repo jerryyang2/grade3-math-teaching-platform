@@ -1,0 +1,18 @@
+.classroom-session { margin: 0; }
+.semester-menu > .classroom-session { display: flex; justify-content: flex-end; margin-bottom: .5rem; }
+.semester-return:has(.classroom-session) { gap: .5rem; flex-wrap: wrap; }
+.classroom-nav > .classroom-session { order: 1; margin-inline-start: auto; }
+.classroom-session button {
+  min-height: 44px;
+  padding: .35rem .8rem;
+  border: 1px solid #739285;
+  border-radius: .65rem;
+  background: #fffaed;
+  color: #264f41;
+  font: inherit;
+  font-weight: 750;
+  cursor: pointer;
+}
+.classroom-session button:hover { background: #f4e9ca; text-decoration: underline; }
+.classroom-session button:focus-visible { outline: 3px solid #b76711; outline-offset: 2px; }
+@media print { .classroom-session { display: none; } }

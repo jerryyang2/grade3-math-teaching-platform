@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A4 數學學習單</title>
+  <link rel="icon" type="image/svg+xml" href="assets/icons/semester-book.svg">
+  <link rel="stylesheet" href="css/i18n.css">
+  <link rel="stylesheet" href="css/worksheet-print.css?v=classroom-review-20261107">
+  <link rel="stylesheet" href="css/zihi-reading.css?v=20261107c">
+  <script defer src="js/worksheet-preview-page.js?v=worksheet-space-20261107"></script>
+</head>
+<body>
+  <nav class="print-preview-controls" aria-label="學習單預覽工具">
+    <a id="worksheet-back" href="lower.html">返回數學課程</a>
+    <button type="button" id="worksheet-print" disabled>列印／另存 PDF</button>
+    <p><strong>A4 直式雙欄 · 四邊各 1 公分</strong><span>每份 10 題，共 2 頁，每頁 5 題。列印選 A4、比例 100%，關閉頁首及頁尾。</span></p>
+    <label translate="no">◎ <select data-language-select aria-label="Language / 語言"><option value="zh-Hant">繁體中文</option><option value="en">English</option></select></label>
+  </nav>
+  <p id="worksheet-error" role="alert" hidden></p>
+  <main id="worksheet-pages"></main>
+  <script id="worksheet-payload" type="application/json" translate="no"></script>
+</body>
+</html>

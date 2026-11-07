@@ -1,0 +1,304 @@
+/* 以幾何積木施工的十座原創島嶼。沒有外部模型或執行期 CDN。 */
+(function(){
+'use strict';
+window.createMathWorld=function(onSelect,callbacks={}){
+ const host=document.getElementById('world'),canvas=document.getElementById('ocean'),status=document.getElementById('world-status');
+ const labels=[...document.querySelectorAll('.island-label')];
+ const markers=[],obstacles=[],groundHits=[],residentHits=[],residentPositions=[];
+ const localizedSigns=[];
+ function localizeSign(ctx,texture,text,baseline,size,bg){const paint=()=>{ctx.fillStyle=bg;ctx.fillRect(0,0,ctx.canvas.width,ctx.canvas.height);ctx.fillStyle='#315760';ctx.font=`bold ${window.MathI18n?.language==='en'?Math.round(size*.72):size}px sans-serif`;ctx.textAlign='center';ctx.fillText(window.MathI18n?.t(text) ?? text,ctx.canvas.width/2,baseline,ctx.canvas.width-40);texture.needsUpdate=true;};localizedSigns.push(paint);paint();}
+
+ let fitOverview=true,viewAngle='bird',customAngle=false,cameraIsland=4;
+ let paused=matchMedia('(prefers-reduced-motion: reduce)').matches,active=null;
+ let renderer;
+ if(window.THREE){
+  try{renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'low-power'});}catch{/* 由島名清單繼續進入任務。 */}
+ }
+ if(!renderer){
+  host.classList.add('flat');
+  canvas.hidden=true;
+  document.getElementById('traveler-tag').hidden=true;
+  document.querySelectorAll('[data-camera-view],[data-walk],#zoom-in,#zoom-out,#motion-toggle,#follow-visitor,#overview,#walk-stop').forEach(button=>{button.disabled=true;});
+  status.textContent='這台裝置無法顯示立體群島，請點島名進入任務。';
+  document.getElementById('view-caption').textContent='點選島嶼，數學任務照常進行';
+  return {meetResident(id){const r=window.MathIslandTeaching?.residents.find(r=>r.unitId===id);if(r)callbacks.onResident?.(r);},boardCruise(){return false;},endCruise(){},setCamera(){return false;},select(){},complete(){},setProgress(){},returnToLanding(){document.getElementById('travel-location').textContent='目前在登島碼頭 · 點選一座島出發';callbacks.onLanding?.();},setVisitor(v,options={}){document.getElementById('traveler-name').textContent=v.name;document.getElementById('travel-location').textContent=options.atLanding?'目前在登島碼頭 · 點選一座島出發':'點選島嶼，數學任務照常進行';},travelTo(id,m=0){const i=Number(id.slice(1))-1,p=window.MathIslandNavigation?.layout().plazas[i];callbacks.onTravelStart?.(id,m);if(p)callbacks.onPosition?.(p,id);onSelect(id,false,m);},stop(){},overview(){},zoom(){},follow(){return false;},toggleMotion(){return true;}};}
+ const T=THREE,scene=new T.Scene();scene.background=new T.Color('#c2e2df');scene.fog=new T.Fog('#c2e2df',180,310);
+ renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));renderer.outputColorSpace=T.SRGBColorSpace;renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
+ const camera=new T.PerspectiveCamera(38,1,.1,500);scene.add(new T.HemisphereLight('#fffae9','#709a9c',2.5));const sun=new T.DirectionalLight('#fff1ce',3);sun.position.set(-30,65,35);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-55,right:55,top:55,bottom:-55,near:1,far:160});sun.shadow.bias=-.0008;scene.add(sun);scene.add(sun.target);
+ const mats=new Map(),geo={box:new T.BoxGeometry(1,1,1),cylinder:new T.CylinderGeometry(1,1,1,12),cone:new T.ConeGeometry(1,1,6),sphere:new T.IcosahedronGeometry(1,1)};
+ function mat(color){if(!mats.has(color))mats.set(color,new T.MeshStandardMaterial({color,roughness:.86}));return mats.get(color);}
+ function mesh(g,color,parent,x=0,y=0,z=0,sx=1,sy=1,sz=1){const o=new T.Mesh(g,mat(color));o.position.set(x,y,z);o.scale.set(sx,sy,sz);o.castShadow=true;o.receiveShadow=true;parent.add(o);return o;}
+ const box=(p,c,x,y,z,a,b,d)=>mesh(geo.box,c,p,x,y,z,a,b,d);
+ const cyl=(p,c,x,y,z,r,h)=>mesh(geo.cylinder,c,p,x,y,z,r,h,r);
+ const sphere=(p,c,x,y,z,r)=>mesh(geo.sphere,c,p,x,y,z,r,r,r);
+ function tree(p,x,z,size=1,color='#528868'){obstacles.push({x:p.position.x+x,z:p.position.z+z,radius:.32*size});cyl(p,'#967755',x,1.8*size,z,.17*size,2*size);const a=sphere(p,color,x,3.1*size,z,1.25*size);a.scale.y=1.25;sphere(p,'#76a174',x+.55*size,2.85*size,z+.3*size,.85*size);}
+ function pine(p,x,z,size=1){obstacles.push({x:p.position.x+x,z:p.position.z+z,radius:.3*size});cyl(p,'#8c7154',x,1.7*size,z,.16*size,2*size);mesh(geo.cone,'#537e69',p,x,2.7*size,z,1.15*size,2.5*size,1.15*size);mesh(geo.cone,'#759c77',p,x,3.65*size,z,.8*size,1.9*size,.8*size);}
+ function roofHouse(p,x,z,color='#d5a483',width=3){obstacles.push({x:p.position.x+x,z:p.position.z+z,width:width+.1,depth:2.8});box(p,'#fff0ce',x,2.1,z,width,2.5,2.7);const roof=mesh(new T.CylinderGeometry(0,1,1,4),color,p,x,3.95,z,width*.87,1.7,2.4);roof.rotation.y=Math.PI/4;box(p,'#6a7f78',x,1.65,z+1.36,.65,1.55,.08);for(const side of [-1,1]){box(p,'#729ca6',x+side*width*.3,2.35,z+1.38,.48,.62,.1);box(p,'#f7e0ae',x+side*width*.3,2.35,z+1.45,.06,.65,.06);}box(p,'#f5dfb9',x,3.25,z+1.5,width*.8,.35,.2);}
+ function flag(p,x,z,c){cyl(p,'#fff8db',x,3,z,.055,4.7);const f=box(p,c,x+.45,4.85,z,.9,.65,.05);f.rotation.z=.1;}
+ const residentTextures=new Map();
+ function npc(group,x,z,color){
+  const index=coordinates.findIndex(([cx,cz])=>cx===group.position.x&&cz===group.position.z);
+  const resident={...MathIslandTeaching.residents[index],x:group.position.x+x,z:group.position.z+z};
+  residentPositions.push(resident);
+
+  const base=cyl(group,color,x,1.13,z,.55,.22);
+  base.userData.resident=resident;
+  residentHits.push(base);
+  const animal=window.AdventureArt.animalForName(resident.name);
+  if(!animal)return;
+  if(!residentTextures.has(animal)){
+   const canvas=document.createElement('canvas');canvas.width=canvas.height=128;
+   const texture=new T.CanvasTexture(canvas);texture.colorSpace=T.SRGBColorSpace;
+   residentTextures.set(animal,{texture,ready:window.AdventureArt.paintPortrait(canvas,animal).then(()=>{texture.needsUpdate=true;})});
+  }
+  const {texture,ready}=residentTextures.get(animal);
+  const sprite=new T.Sprite(new T.SpriteMaterial({map:texture,transparent:true,alphaTest:.25,toneMapped:false}));
+  sprite.position.set(x,2.22,z);
+  sprite.scale.set(1.95,1.95,1);
+  sprite.userData.resident=resident;
+  ready.then(()=>{group.add(sprite);residentHits.push(sprite);dirty=true;}).catch(()=>{sprite.material.dispose();});
+ }
+ const sea=mesh(new T.PlaneGeometry(800,800),'#76b7bb',scene,0,-1.15,0);sea.rotation.x=-Math.PI/2;sea.castShadow=false;
+ const seabed=mesh(sea.geometry,'#76b7bb',scene,0,-7,0);seabed.rotation.x=-Math.PI/2;seabed.castShadow=false;sea.material=sea.material.clone();sea.material.transparent=true;sea.material.opacity=.38;sea.material.depthWrite=false;sea.receiveShadow=false;
+ const coordinates=MathIslandNavigation.coordinates,groups=[],hits=[],spinners=[],floaters=[];
+ function terrain(i){const group=new T.Group();group.position.set(coordinates[i][0],0,coordinates[i][1]);scene.add(group);groups.push(group);
+ const shape=new T.Shape();for(let k=0;k<13;k++){const angle=k/12*Math.PI*2,r=7.3+Math.sin(k*2.7+i)*.65,x=Math.cos(angle)*r,y=Math.sin(angle)*r*.82;if(!k)shape.moveTo(x,y);else shape.lineTo(x,y);}const g=new T.ExtrudeGeometry(shape,{depth:1.5,bevelEnabled:true,bevelSegments:1,steps:1,bevelSize:.6,bevelThickness:.5});g.rotateX(Math.PI/2);
+ const cliff=mesh(g,'#d8bc8f',group,0,.25,0);cliff.userData.island=i;hits.push(cliff);const top=mesh(g,MathIslands.islands[i].land,group,0,.73,0,.92,.34,.92);top.userData.island=i;hits.push(top);groundHits.push(top);
+ const coast=mesh(new T.RingGeometry(7.7,8.05,48),'#c6e3d5',group,0,-.99,0,1,1,.84);coast.rotation.x=-Math.PI/2;coast.castShadow=false;
+ // 主步道、碼頭、路燈與任務旗。
+ box(group,'#ecdbb5',0,.86,2.3,1.1,.08,7.1);box(group,'#b88d63',0,.08,7.4,1.9,.2,3.7);for(let j=0;j<7;j++)box(group,'#e2c69a',0,.22,5.8+j*.48,2,.1,.22);for(const x of [-.85,.85])cyl(group,'#947953',x,-.1,8.5,.12,1.6);
+ flag(group,-3.7,3.8,MathIslands.islands[i].color);npc(group,1.5,3.9,MathIslands.islands[i].color);
+ for(let m=0;m<3;m++){const x=-2+m*2;const orb=sphere(group,'#fff1bd',x,2.05,4.8,.3);orb.userData={island:i,mission:m};hits.push(orb);markers.push({orb,id:MathIslands.islands[i].id,mission:m});cyl(group,'#9c855b',x,1.35,4.8,.045,1);const signCanvas=document.createElement('canvas');signCanvas.width=64;signCanvas.height=64;const ctx=signCanvas.getContext('2d');ctx.fillStyle='#fcf7e7';ctx.beginPath();ctx.arc(32,32,27,0,Math.PI*2);ctx.fill();ctx.fillStyle='#47665f';ctx.font='bold 34px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(String(m+1),32,34);const texture=new T.CanvasTexture(signCanvas);texture.colorSpace=T.SRGBColorSpace;const sign=new T.Sprite(new T.SpriteMaterial({map:texture,depthTest:false}));sign.position.set(x,2.8,4.8);sign.scale.set(.65,.65,.65);sign.userData={island:i,mission:m};group.add(sign);hits.push(sign);}
+
+ for(let k=0;k<5;k++){const angle=2.2+k*.7,x=Math.cos(angle)*5.2,z=Math.sin(angle)*4.6;(i===5?pine:tree)(group,x,z,.6+(k%3)*.15);}
+ for(let k=0;k<4;k++)sphere(group,'#9aa48d',5-k*.4,.65,-2+k*.65,.4+(k%2)*.2);
+ return group;}
+ for(let i=0;i<MathIslands.islands.length;i++){const p=terrain(i);
+ switch(MathIslands.islands[i].model??[5,1,9,2,4,6,7,3,0,10][i]){
+ case 0: // 港口倉庫、燈塔、位值金幣。
+ roofHouse(p,-2,-1,'#c39450',3.3);obstacles.push({x:p.position.x+2,z:p.position.z-1.5,radius:1});cyl(p,'#f5eed6',2,3,-1.5,.85,4.7);cyl(p,'#b85f49',2,3.2,-1.5,.88,.8);cyl(p,'#526e78',2,5.5,-1.5,1,.65);mesh(geo.cone,'#d09c40',p,2,6.2,-1.5,1.3,.9,1.3);sphere(p,'#ffe0a1',2,5.55,-1.5,.5);for(let j=0;j<4;j++)for(let k=0;k<=j;k++)cyl(p,'#e4b64e',-3+j*1.25,1.05+k*.22,2.2,.4,.2);break;
+ case 1: // 市集遮棚、貨箱。
+ for(const [x,z,c]of[[-2,-1,'#bb7560'],[2,-1.8,'#6b9d88']]){roofHouse(p,x,z,c,2.8);box(p,'#fff2d1',x,2.65,z+2,3.2,.12,1.6);for(let k=0;k<4;k++)box(p,c,x-1.2+k*.8,2.73,z+2,.38,.1,1.6);for(const dx of [-1.4,1.4])cyl(p,'#8b7152',x+dx,1.7,z+2.7,.05,2);for(let k=0;k<3;k++){box(p,'#b38a5b',x-1+k,1.1,z+2.3,.65,.55,.65);sphere(p,['#cc7160','#dfb953','#8caa60'][k],x-1+k,1.52,z+2.3,.23);}}break;
+ case 2: // 烘焙山、磨坊、烤盤。
+ obstacles.push({x:p.position.x-.8,z:p.position.z-1.5,radius:2.7});const hill=sphere(p,'#bba18c',-.8,1.4,-1.5,3);hill.scale.set(1,.6,1);roofHouse(p,0,-1,'#9b6f70',3.4);cyl(p,'#eddfbd',-3.2,2.8,-1,.65,3.9);mesh(geo.cone,'#9a6c68',p,-3.2,5,-1,1,.9,1);const mill=new T.Group();mill.position.set(-3.2,3.7,-.22);p.add(mill);for(let k=0;k<4;k++){const b=box(mill,'#f4dfac',0,0,0,.28,3.4,.1);b.rotation.z=k*Math.PI/2;}spinners.push({obj:mill,speed:.15});for(let j=0;j<3;j++){box(p,'#9b7961',1+j*1.1,1.05,2,.9,.15,1.7);for(let k=0;k<3;k++)sphere(p,'#d9ad69',1+j*1.1,1.35,1.4+k*.5,.24);}break;
+ case 3: // 曲流與拱橋。
+ box(p,'#73b3b9',0,.91,0,2.5,.1,10);for(let j=0;j<9;j++){box(p,'#c5986c',-3+j*.75,1.3+Math.sin(j/8*Math.PI)*.5,0,.68,.22,2);for(const z of [-1,1]){cyl(p,'#9e7654',-3+j*.75,1.9+Math.sin(j/8*Math.PI)*.5,z,.06,1);}}roofHouse(p,-3.3,-2.8,'#548a8e',2.5);box(p,'#f5deac',3,1.05,3.1,4,.15,.7);for(let j=0;j<9;j++)box(p,'#687d73',1.2+j*.45,1.14,3.2,.04,.04,j%2?.25:.55);break;
+ case 4: // 有塔樓、雉堞、城門的幾何城。
+ obstacles.push({x:p.position.x,z:p.position.z-1,width:6.9,depth:3.2});box(p,'#e5d6b6',0,2.2,-1,5.4,2.8,3);for(const x of [-2.7,2.7]){cyl(p,'#dccfb7',x,3,-.6,.85,4.3);mesh(geo.cone,'#88789e',p,x,5.8,-.6,1.2,1.7,1.2);box(p,'#617b8a',x,3.5,.2,.35,.7,.08);}for(let j=0;j<6;j++)box(p,'#f4e7cd',-2.5+j,3.9,-1,.5,.65,3.2);box(p,'#7c6b60',0,1.8,.57,1.3,2,.12);for(const x of [-.5,0,.5])box(p,'#c0a77a',x,1.9,.65,.05,1.8,.06);flag(p,0,-1,'#b49bd2');break;
+ case 5: // 野餐地毯、籃子、松林。
+ box(p,'#e3be9b',0,.95,0,4,.06,3.5);for(let j=0;j<5;j++)box(p,'#f9e5c3',-1.8+j*.9,1,0,.35,.04,3.5);for(let j=0;j<3;j++){cyl(p,'#b28b61',-1.7+j*1.7,1.3,1,.5,.6);for(let k=0;k<3;k++)sphere(p,'#e4b563',-1.95+j*1.7+k*.23,1.7,1,.16);}roofHouse(p,2.3,-2.8,'#839263',2.4);for(let j=0;j<3;j++)pine(p,-4+j*2,-3.8,1);break;
+ case 6: // 玻璃感調飲室、水塔、量杯。
+ roofHouse(p,-1,-1,'#649caa',3.7);obstacles.push({x:p.position.x+3,z:p.position.z-1,radius:.95});cyl(p,'#b4d3d5',3,2.6,-1,.95,3.4);cyl(p,'#73b4c4',3,2.2,-1,.97,1.8);mesh(geo.cone,'#688e91',p,3,4.7,-1,1.2,1,1.2);for(let j=0;j<3;j++){cyl(p,'#f6e0af',-2+j*1.6,1.6,2.2,.5,1.35);cyl(p,['#e6ad68','#d89a85','#a7b96e'][j],-2+j*1.6,1.7,2.2,.51,.8);for(let k=0;k<4;k++)box(p,'#68858a',-1.75+j*1.6,1.2+k*.23,2.65,.3,.035,.05);}break;
+ case 7: // 披薩餐館、圓形戶外餐桌。
+ roofHouse(p,0,-1.5,'#c67f58',4);obstacles.push({x:p.position.x,z:p.position.z+.6,radius:1.8});cyl(p,'#9f815f',0,1.4,0.6,1.8,.3);cyl(p,'#e7b86c',0,1.61,0.6,1.52,.12);cyl(p,'#cf7953',0,1.7,0.6,1.32,.05);for(let k=0;k<8;k++){const a=k*Math.PI/4;box(p,'#f6ddaa',0,1.75,0.6,.025,.025,2.6).rotation.y=a;sphere(p,'#c5af67',Math.cos(a)*.85,1.8,0.6+Math.sin(a)*.85,.15);}for(const x of [-3,3]){cyl(p,'#9b7d5c',x,1.1,1.1,.65,.45);cyl(p,'#edc49b',x,1.4,1.1,.8,.15);}break;
+ case 8: // 可轉動摩天輪、支架、車廂。
+ roofHouse(p,-3.1,1,'#66a48a',2);for(const x of [-1,1]){const leg=box(p,'#f3ddac',x,3,-1,.28,5,.35);leg.rotation.z=x*.25;}const wheel=new T.Group();wheel.position.set(0,4.4,-1);p.add(wheel);mesh(new T.TorusGeometry(3,.12,8,48),'#e0bc6c',wheel);for(let k=0;k<8;k++){const a=k*Math.PI/4;const spoke=box(wheel,'#f7e4b6',0,0,0,.06,6,.06);spoke.rotation.z=a;const cabin=new T.Group();cabin.position.set(Math.sin(a)*3,Math.cos(a)*3,0);wheel.add(cabin);box(cabin,['#d68d76','#79aaa0','#dfb96e','#a396bb'][k%4],0,-.35,0,.65,.65,.65);sphere(cabin,'#f3dfb4',0,.05,0,.4);}spinners.push({obj:wheel,speed:.08});sphere(p,'#dcb76f',0,4.4,-.7,.35);break;
+ case 9: { // 報時鐘塔。
+  roofHouse(p,0,-1,'#9da8ba',3.2);
+  const face=cyl(p,'#fff4d4',0,4.1,.58,.82,.12);face.rotation.x=Math.PI/2;
+  box(p,'#435769',0,4.35,.66,.06,.55,.04);
+  const hand=box(p,'#435769',.21,4.13,.66,.48,.055,.04);hand.rotation.z=.2;
+  break;
+ }
+ case 10: { // 表格圖書館，以三欄窗格呼應表格。
+  roofHouse(p,0,-1.4,'#7a8da0',5.2);
+  for(let row=0;row<2;row++)for(let col=0;col<3;col++)box(p,'#ecddb3',-1.3+col*1.3,1.62+row*.7,.03,.74,.44,.1);
+  break;
+ }
+ }
+ }
+ // 登島碼頭：歡迎拱門、木平台、繫船柱與一座接入群島的新橋。
+ const landing=MathIslandNavigation.landing,dock=new T.Group();dock.position.set(landing.position.x,0,landing.position.z);scene.add(dock);
+ const dockDeck=box(dock,'#c6a275',0,.87,0,landing.width,.24,landing.depth);groundHits.push(dockDeck);
+ for(let z=-2.25;z<=2.25;z+=.45)box(dock,'#edd1a1',0,1.01,z,5.9,.045,.045);
+ for(const x of [-2.65,2.65])for(const z of [-2.1,2.1]){cyl(dock,'#8d7557',x,.42,z,.16,2.2);cyl(dock,'#f5e3ba',x,1.6,z,.2,.2);}
+ for(const x of [-2.1,2.1])cyl(dock,'#477e7d',x,2.5,1.5,.13,3.2);
+ box(dock,'#f6e8c2',0,4.08,1.5,5.1,1.15,.25);flag(dock,-2.5,.3,'#e4b45a');
+ const welcomeCanvas=document.createElement('canvas');welcomeCanvas.width=768;welcomeCanvas.height=160;const welcomeContext=welcomeCanvas.getContext('2d');welcomeContext.fillStyle='#f6e8c2';welcomeContext.fillRect(0,0,768,160);welcomeContext.fillStyle='#315760';welcomeContext.font='bold 92px sans-serif';welcomeContext.textAlign='center';welcomeContext.fillText('登島碼頭',384,115);const welcomeTexture=new T.CanvasTexture(welcomeCanvas);welcomeTexture.colorSpace=T.SRGBColorSpace;localizeSign(welcomeContext,welcomeTexture,'登島碼頭',115,92,'#f6e8c2');
+ for(const side of [-1,1]){const sign=new T.Mesh(new T.PlaneGeometry(4.6,.96),new T.MeshStandardMaterial({map:welcomeTexture,side:T.DoubleSide}));sign.position.set(0,4.08,1.5+side*.14);dock.add(sign);}
+ // 十二座單元連島橋加登島橋，與島內步道共用尋路資料。
+
+ const navigation=MathIslandNavigation.create(obstacles);
+ const pedestrians=MathIslandPedestrians.mount(T,scene,navigation,geo);
+ const marineAnimals=MathIslandMarineAnimals.mount(T,scene,navigation);
+ for(const road of navigation.roads){const dx=road.b.x-road.a.x,dz=road.b.z-road.a.z;const path=box(scene,'#ead6ab',(road.a.x+road.b.x)/2,.91,(road.a.z+road.b.z)/2,road.width,.06,Math.hypot(dx,dz));path.rotation.y=Math.atan2(dx,dz);path.castShadow=false;}
+ for(const bridge of navigation.bridges){const dx=bridge.b.x-bridge.a.x,dz=bridge.b.z-bridge.a.z,len=Math.hypot(dx,dz),group=new T.Group();group.position.set((bridge.a.x+bridge.b.x)/2,0,(bridge.a.z+bridge.b.z)/2);group.rotation.y=Math.atan2(dx,dz);scene.add(group);const deck=box(group,'#c9a578',0,.87,0,bridge.width,.22,len+.5);deck.userData.bridge=bridge.id;groundHits.push(deck);
+  const planks=Math.ceil(len/.68), spacing=len/planks;
+  const timber=['#e6c799','#d9b484','#edcea3','#dcb989'];
+  for(let i=0;i<planks;i++)box(group,timber[i%timber.length],0,.995,-len/2+(i+.5)*spacing,bridge.width-.05,.045,spacing-.028).castShadow=false;
+  for(const side of [-1,1]){
+   const edge=side*(bridge.width/2-.04);
+   box(group,'#a47d58',edge,1.77,0,.09,.1,len+.4);
+   box(group,'#e3bd8f',edge,1.83,0,.12,.035,len+.4);
+   const bays=Math.ceil(len/2.5);
+   for(let i=0;i<=bays;i++){
+    const d=-len/2+i*len/bays;
+    cyl(group,'#a27c58',edge,1.4,d,.076,.94);
+    cyl(group,'#cfa477',edge,1.88,d,.115,.08);
+   }
+  }
+  for(let d=-len/2+2;d<len/2;d+=4)cyl(group,'#9f805d',0,-.2,d,.18,2.2);
+ }
+ // 色彩、航速與起始方位不同的小帆船，沿群島外緣持續航行。
+ function makeSailboat(color){const group=new T.Group();scene.add(group);box(group,'#9a7954',0,0,0,1.4,.45,2.8);mesh(geo.cone,color,group,0,0,1.45,.7,.8,.7).rotation.x=Math.PI/2;cyl(group,'#efdcaf',0,1.35,0,.055,2.9);const shape=new T.Shape();shape.moveTo(0,0);shape.lineTo(0,2.1);shape.lineTo(1.1,.15);shape.closePath();const sail=new T.Mesh(new T.ShapeGeometry(shape),new T.MeshStandardMaterial({color:'#fff3d4',side:T.DoubleSide,roughness:.9}));sail.position.set(0,.25,0);group.add(sail);box(group,color,0,.26,-.8,1.05,.12,.8);return group;}
+ const sailboats=MathIslandSeaLife.fleet.map(route=>({object:makeSailboat(route.color),route:{...route,phase:route.phase+Math.random()*Math.PI*2}}));
+ const cruiseShip=new T.Group();scene.add(cruiseShip);
+ const hullShape=new T.Shape();hullShape.moveTo(-2.2,-5);hullShape.lineTo(2.2,-5);hullShape.lineTo(2.5,3.8);hullShape.lineTo(0,7);hullShape.lineTo(-2.5,3.8);hullShape.closePath();const hullGeo=new T.ExtrudeGeometry(hullShape,{depth:1.2,bevelEnabled:true,bevelSize:.15,bevelThickness:.15,bevelSegments:1,steps:1});hullGeo.rotateX(-Math.PI/2);mesh(hullGeo,'#f3e9cb',cruiseShip,0,-.65,0);box(cruiseShip,'#477d8c',0,.13,-.2,4.5,.25,9.7);box(cruiseShip,'#fbf5e3',0,1.25,-.7,3.9,1.85,8.3);box(cruiseShip,'#d9c89b',0,2.57,-.7,4.2,.2,8.7);
+ for(const side of [-1,1])for(let k=0;k<7;k++)box(cruiseShip,'#588f9f',side*1.96,1.35,-3.6+k,.06,.62,.52);
+ for(const x of [-.85,.85]){cyl(cruiseShip,'#ba6c4d',x,3.17,-2.9,.39,1);cyl(cruiseShip,'#45666d',x,3.72,-2.9,.42,.15);}
+ for(const side of [-1,1]){box(cruiseShip,'#bca66c',side*2.08,3.03,-.7,.05,.05,8.5);for(let z=-4.5;z<3.5;z+=1.1)cyl(cruiseShip,'#c9b884',side*2.08,2.81,z,.035,.47);const ring=mesh(new T.TorusGeometry(.3,.085,8,24),'#bd7454',cruiseShip,side*2.28,.9,2);ring.rotation.y=Math.PI/2;}
+ cyl(cruiseShip,'#d1b87e',0,3.3,3.6,.05,3.6);const pennant=box(cruiseShip,'#dfae56',.4,4.8,3.6,.8,.45,.04);pennant.rotation.z=.1;
+ const signCanvas=document.createElement('canvas');signCanvas.width=768;signCanvas.height=128;const signContext=signCanvas.getContext('2d');signContext.fillStyle='#f7efd8';signContext.fillRect(0,0,768,128);signContext.fillStyle='#315760';signContext.font='bold 76px sans-serif';signContext.textAlign='center';signContext.fillText('環遊世界號',384,92);const signTexture=new T.CanvasTexture(signCanvas);signTexture.colorSpace=T.SRGBColorSpace;localizeSign(signContext,signTexture,'環遊世界號',92,76,'#f7efd8');for(const side of [-1,1]){const sign=new T.Mesh(new T.PlaneGeometry(5.4,.9),new T.MeshStandardMaterial({map:signTexture,side:T.DoubleSide}));sign.position.set(side*1.99,2.06,-.6);sign.rotation.y=side*Math.PI/2;cruiseShip.add(sign);}
+
+ // 角色以腳底為原點；衣服、背包和四肢可隨訪客切換。
+ const hero=new T.Group();scene.add(hero);const body=cyl(hero,'#508c7a',0,.96,0,.36,.9);const head=sphere(hero,'#f4cfac',0,1.72,.02,.36);const hat=mesh(geo.cone,'#508c7a',hero,0,2.08,0,.48,.28,.48);cyl(hero,'#efce88',0,1.96,0,.49,.06);
+ const legs=[],arms=[];for(const side of [-1,1]){const leg=new T.Group();leg.position.set(side*.17,.55,0);hero.add(leg);box(leg,'#526b72',0,-.24,0,.19,.5,.22);box(leg,'#f8e9c6',0,-.48,.07,.23,.12,.37);legs.push(leg);const arm=new T.Group();arm.position.set(side*.43,1.27,0);hero.add(arm);box(arm,'#f4cfac',0,-.25,0,.16,.5,.19);arms.push(arm);}
+ box(hero,'#d7ad6c',0,1.03,-.34,.47,.59,.23);for(const x of [-.13,.13])sphere(hero,'#294751',x,1.79,.35,.035);const halo=mesh(new T.RingGeometry(.47,.61,28),'#f9df8d',hero,0,.015,0);halo.rotation.x=-Math.PI/2;halo.castShadow=false;
+ const tag=document.getElementById('traveler-tag'),locationText=document.getElementById('travel-location');
+ let riding=false,cruiseUnlocked=false,cruiseElapsed=0,seaTime=0,lastResident=null;
+ let position={...landing.position},currentIsland=null,path=[],trip=null,following=false,wasWalking=false,walkTime=0,frameTime=0;
+ let distance=155,targetDistance=155,theta=.28,phi=.52,targetPhi=.52;const look=new T.Vector3(0,0,1),goal=new T.Vector3(0,0,1);let dirty=true,last=0,animationFrame=0;const keys=new Set();
+ function updateViewCaption(){document.getElementById('view-caption').textContent=following?'跟隨訪客 · 拖曳旋轉視角':'自由看地圖 · 拖曳移動';}
+ function updateCameraButtons(){document.querySelectorAll('button[data-camera-view]').forEach(button=>{button.setAttribute('aria-pressed',String(!customAngle&&button.dataset.cameraView===viewAngle));});host.dataset.cameraView=customAngle?'custom':viewAngle;}
+ function nearestIsland(p){return coordinates.reduce((best,c,i)=>Math.hypot(c[0]-p.x,c[1]-p.z)<Math.hypot(coordinates[best][0]-p.x,coordinates[best][1]-p.z)?i:best,0);}
+ function frameOverview(preset,aspect){
+  const frame=MathIslandMapCamera.overviewFrame(preset,aspect,coordinates,landing,camera.fov);
+  goal.set(frame.x,0,frame.z);
+  targetDistance=frame.distance;
+ }
+ function setCamera(mode){
+  const preset=MathIslandMapCamera.preset(mode,following,host.clientWidth/host.clientHeight);if(!preset)return false;
+  fitOverview=!following&&mode!=='eye';viewAngle=mode;customAngle=false;targetPhi=preset.phi;theta=preset.theta;targetDistance=preset.distance;
+  if(!following){if(mode==='eye'){const index=active===null?nearestIsland(goal):active;cameraIsland=index;goal.set(coordinates[index][0],preset.y,coordinates[index][1]+.5);}else frameOverview(preset,host.clientWidth/host.clientHeight);}
+  else goal.set(hero.position.x,preset.y,hero.position.z);
+  scene.background.set(mode==='eye'?'#dcedf1':'#c2e2df');scene.fog.color.copy(scene.background);
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){phi=targetPhi;distance=targetDistance;look.copy(goal);}
+  updateCameraButtons();updateViewCaption();dirty=true;return true;
+ }
+ function savePosition(){if(riding)return;callbacks.onPosition?.({...position},currentIsland);}
+ function setLocation(message){if(locationText.textContent!==message)locationText.textContent=message;}
+ function updatePosition(){if(riding)return;hero.position.set(position.x,1.02,position.z);tag.dataset.x=position.x.toFixed(2);tag.dataset.z=position.z.toFixed(2);const surface=navigation.surface(position);tag.dataset.bridge=surface.bridgeId||'';tag.dataset.island=surface.islandId||'';tag.dataset.walking=String(path.length>0||keys.size>0);if(surface.islandId&&surface.islandId!==currentIsland){currentIsland=surface.islandId;if(!trip)onSelect(currentIsland,false,0);}const name=MathIslands.islands.find(i=>i.id===currentIsland)?.name||'登島碼頭';const near=MathIslandSeaLife.nearResident(position,residentPositions);if((near?.id||null)!==lastResident){lastResident=near?.id||null;callbacks.onResident?.(near);}setLocation(surface.bridgeId?(path.length||keys.size?'正在橋上行走':'站在連島橋上')+(trip?` → ${(trip.id==='landing'?'登島碼頭':MathIslands.islands.find(i=>i.id===trip.id).name)}`:''):trip?`${name} · 沿橋前往${(trip.id==='landing'?'登島碼頭':MathIslands.islands.find(i=>i.id===trip.id).name)}`:surface.landing?'目前在登島碼頭 · 點選一座島出發':`目前在${name}`);}
+ function stop(){if(riding)endCruise();const changed=wasWalking||path.length||keys.size;path=[];trip=null;keys.clear();routeMarkers.clear();legs.forEach(o=>{o.rotation.x=0;});arms.forEach(o=>{o.rotation.x=0;});wasWalking=false;updatePosition();if(changed)savePosition();dirty=true;}
+ function overview(){following=false;document.getElementById('follow-visitor').setAttribute('aria-pressed','false');setCamera('bird');}
+ function follow(value=!following){const changed=value!==following;following=value;document.getElementById('follow-visitor').setAttribute('aria-pressed',String(following));if(following&&changed)setCamera(viewAngle);updateViewCaption();dirty=true;return following;}
+ const routeMarkers=new T.Group();
+ scene.add(routeMarkers);
+ const arrowShape=new T.Shape();
+ arrowShape.moveTo(-.23,-.16);arrowShape.lineTo(0,.11);arrowShape.lineTo(.23,-.16);
+ arrowShape.lineTo(.23,-.035);arrowShape.lineTo(0,.235);arrowShape.lineTo(-.23,-.035);arrowShape.closePath();
+ const arrowGeometry=new T.ShapeGeometry(arrowShape);
+ arrowGeometry.rotateX(Math.PI/2);
+ const arrowMaterial=new T.MeshBasicMaterial({color:'#f9ebbd',side:T.DoubleSide});
+ function showBridgeRoute(points){
+  routeMarkers.clear();
+  let distanceToArrow=1.25;
+  for(let i=1;i<points.length;i++){
+   const a=points[i-1],b=points[i],dx=b.x-a.x,dz=b.z-a.z,length=Math.hypot(dx,dz);
+   for(;distanceToArrow<length;distanceToArrow+=2){
+    const f=distanceToArrow/length;
+    const arrow=new T.Mesh(arrowGeometry,arrowMaterial);
+    arrow.position.set(a.x+dx*f,1.027,a.z+dz*f);
+    arrow.rotation.y=Math.atan2(dx,dz);
+    routeMarkers.add(arrow);
+   }
+   distanceToArrow-=length;
+  }
+ }
+ function walkTo(destination,pending=null){const route=navigation.route(position,destination);if(!route.length){status.textContent='這裡無法通行，請點島上空地、步道或橋面。';return false;}keys.clear();showBridgeRoute([position,...route]);path=route;trip=pending;status.textContent='';if(pending&&pending.id!=='landing')callbacks.onTravelStart?.(pending.id,pending.mission);follow(true);canvas.focus({preventScroll:true});dirty=true;return true;}
+ function travelTo(id,m=0){const index=MathIslands.islands.findIndex(i=>i.id===id);if(index<0)return;const target=m?{x:coordinates[index][0]-2+m*2,z:coordinates[index][1]+4.1}:navigation.plazas[index];walkTo(target,{id,mission:m});}
+ function setVisitor(visitor,options={}){stop();status.textContent='';lastResident=null;body.material=mat(visitor.color);hat.material=mat(visitor.color);document.getElementById('traveler-name').textContent=visitor.name;if(!options.preservePosition){const index=Math.max(0,MathIslands.islands.findIndex(i=>i.id===visitor.islandId));currentIsland=options.atLanding?null:MathIslands.islands[index].id;position=options.atLanding?{...landing.position}:navigation.walkable(visitor.position)?{...visitor.position}:{...navigation.plazas[index]};}updatePosition();dirty=true;}
+ function returnToLanding(){stop();callbacks.onLanding?.();const started=walkTo(landing.position,{id:'landing',mission:0});if(started){overview();status.textContent='沿橋返回登島碼頭中。';}return started;}
+
+ function resize(){const w=host.clientWidth,h=host.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);if(fitOverview&&!following){
+  frameOverview(MathIslandMapCamera.preset(viewAngle),w/h);
+  if(paused){distance=targetDistance;look.copy(goal);}
+ }camera.aspect=w/h;camera.updateProjectionMatrix();dirty=true;}
+ new ResizeObserver(resize).observe(host);resize();
+ const labelSizes=new WeakMap();
+ function positionLabels(){
+  const width=host.clientWidth,height=host.clientHeight,point=new T.Vector3();
+  const project=(x,y,z)=>{
+   const v=point.set(x,y,z).project(camera);
+   return {x:(v.x+1)*width/2,y:(1-v.y)*height/2,z:v.z};
+  };
+  const eyeIsland=viewAngle==='eye'?(following?nearestIsland(hero.position):cameraIsland):null;
+  const anchors=labels.map((label,i)=>{
+   if(!label.hidden)labelSizes.set(label,{width:label.offsetWidth,height:label.offsetHeight});
+   if(eyeIsland!==null&&i!==eyeIsland)return null;
+   const size=labelSizes.get(label)||{width:75,height:18};
+   const anchor=MathIslandMapLabels.belowIsland(project,coordinates[i],width,height,size.width,size.height);
+   return anchor.visible?{...anchor,...size}:null;
+  });
+  MathIslandMapLabels.separateLabels(anchors,height);
+  labels.forEach((label,i)=>{
+   const anchor=anchors[i];
+   label.hidden=!anchor?.visible;
+   if(anchor?.visible){
+    label.style.left=`${anchor.x}px`;
+    label.style.top=`${anchor.y}px`;
+   }
+  });
+  const visitor=project(hero.position.x,hero.position.y+2.6,hero.position.z);
+  tag.hidden=visitor.z>1||visitor.x<0||visitor.x>width||visitor.y<0||visitor.y>height;
+  tag.style.left=`${visitor.x}px`;
+  tag.style.top=`${visitor.y}px`;
+ }
+ function stepWalker(dt){
+  if(riding){if(!paused)cruiseElapsed+=dt;const p=MathIslandSeaLife.sample(MathIslandSeaLife.cruise,cruiseElapsed);cruiseShip.position.set(p.x,-.25,p.z);cruiseShip.rotation.y=p.heading;hero.position.set(p.x,2.53,p.z);hero.rotation.y=p.heading;tag.dataset.x=p.x.toFixed(2);tag.dataset.z=p.z.toFixed(2);tag.dataset.bridge='';tag.dataset.island='';tag.dataset.walking='false';tag.dataset.cruise='true';setLocation(paused?'搭乘環遊世界號 · 航程暫停':'搭乘環遊世界號 · 群島外海巡航中');dirty=true;return;}
+  let dx=0,dz=0;const before={...position};
+  if(keys.size){path=[];trip=null;routeMarkers.clear();const forward=Number(keys.has('up'))-Number(keys.has('down')),right=Number(keys.has('right'))-Number(keys.has('left'));dx=right*Math.cos(theta)-forward*Math.sin(theta);dz=-right*Math.sin(theta)-forward*Math.cos(theta);const length=Math.hypot(dx,dz);if(length){position=navigation.move(position,dx/length*3.6*dt,dz/length*3.6*dt);}}
+  else if(path.length){const target=path[0],x=target.x-position.x,z=target.z-position.z,length=Math.hypot(x,z),step=Math.min(length,3.6*dt);if(length<.035){position={...target};path.shift();}else position=navigation.move(position,x/length*step,z/length*step);if(Math.hypot(position.x-before.x,position.z-before.z)<.00001&&length>=.035){stop();status.textContent='前方無法通行，請再點一次步道。';}}
+  const walking=Math.hypot(position.x-before.x,position.z-before.z)>.00001;if(walking){hero.rotation.y=Math.atan2(position.x-before.x,position.z-before.z);walkTime+=dt*11;callbacks.onFootstep?.(walkTime);legs.forEach((o,i)=>{o.rotation.x=Math.sin(walkTime+i*Math.PI)*.5;});arms.forEach((o,i)=>{o.rotation.x=-Math.sin(walkTime+i*Math.PI)*.4;});dirty=true;}
+  updatePosition();if(!path.length&&!keys.size){if(trip){const arrived=trip;trip=null;if(arrived.id==='landing'){currentIsland=null;callbacks.onLanding?.();status.textContent='已回到登島碼頭，選一座島再出發。';}else{currentIsland=arrived.id;onSelect(arrived.id,false,arrived.mission);status.textContent=`已走到${MathIslands.islands.find(i=>i.id===arrived.id).name}，可以開始任務。`;}savePosition();}if(wasWalking){routeMarkers.clear();legs.forEach(o=>{o.rotation.x=0;});arms.forEach(o=>{o.rotation.x=0;});savePosition();}}wasWalking=walking;
+ }
+ let lessonVisible=true;window.addEventListener('message',event=>{if(window.MathEmbeddedMessaging.isFrom(event,window.parent) && event.data?.type==='math-lesson-visibility'){lessonVisible=event.data.visible===true;if(!lessonVisible)stop();dirty=true;}});
+ function animate(time){animationFrame=requestAnimationFrame(animate);if(document.hidden||!lessonVisible){frameTime=time;return;}if(time-last<33)return;const dt=Math.min((time-(frameTime||time))/1000,.08);frameTime=time;last=time;stepWalker(dt);if(following)goal.set(hero.position.x,viewAngle==='eye'?2.8:riding?2:1,hero.position.z);const moving=look.distanceTo(goal)>.01||Math.abs(distance-targetDistance)>.01||Math.abs(phi-targetPhi)>.001;if(paused&&!moving&&!dirty)return;look.lerp(goal,.12);phi+=(targetPhi-phi)*.12;distance+=(targetDistance-distance)*.12;camera.position.set(look.x+Math.sin(theta)*Math.sin(phi)*distance,look.y+Math.cos(phi)*distance,look.z+Math.cos(theta)*Math.sin(phi)*distance);camera.lookAt(look);if(!paused){marineAnimals.step(dt);pedestrians.step(dt,riding?null:position);seaTime+=dt;sailboats.forEach(({object,route},i)=>{const p=MathIslandSeaLife.sample(route,seaTime);object.position.set(p.x,-.65+Math.sin(seaTime*1.3+i)*.1,p.z);object.rotation.y=p.heading;});if(!riding){const p=MathIslandSeaLife.sample(MathIslandSeaLife.cruise,seaTime);cruiseShip.position.set(p.x,-.25,p.z);cruiseShip.rotation.y=p.heading;}spinners.forEach(({obj,speed})=>{obj.rotation.z=time*.001*speed;});floaters.forEach((g,i)=>{g.position.y=-.65+Math.sin(time*.001+i)*.12;});}renderer.render(scene,camera);positionLabels();dirty=false;}
+ animationFrame=requestAnimationFrame(animate);
+ const keyNames={ArrowUp:'up',w:'up',W:'up',ArrowDown:'down',s:'down',S:'down',ArrowLeft:'left',a:'left',A:'left',ArrowRight:'right',d:'right',D:'right'};
+ canvas.addEventListener('keydown',e=>{if(riding){if(e.key==='Escape')endCruise();return;}if(e.altKey||e.ctrlKey||e.metaKey)return;const direction=keyNames[e.key];if(direction){e.preventDefault();status.textContent='';keys.add(direction);follow(true);}if(e.key==='Escape'){e.preventDefault();stop();}});window.addEventListener('keyup',e=>{const dir=keyNames[e.key];if(dir){keys.delete(dir);if(!keys.size&&!path.length){updatePosition();savePosition();}}});window.addEventListener('blur',stop);window.addEventListener('pagehide',stop);canvas.addEventListener('blur',()=>{keys.clear();});document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
+ document.querySelectorAll('[data-walk]').forEach(button=>{button.addEventListener('pointerdown',e=>{if(riding)return;e.preventDefault();stop();status.textContent='';keys.add(button.dataset.walk);button.setPointerCapture(e.pointerId);follow(true);});const release=()=>{keys.delete(button.dataset.walk);updatePosition();savePosition();};button.addEventListener('pointerup',release);button.addEventListener('pointercancel',release);button.addEventListener('lostpointercapture',release);button.addEventListener('click',e=>{if(e.detail===0&&!riding){const forward=button.dataset.walk==='up'?1:button.dataset.walk==='down'?-1:0,right=button.dataset.walk==='right'?1:button.dataset.walk==='left'?-1:0;const destination=navigation.move(position,(right*Math.cos(theta)-forward*Math.sin(theta))*1.2,(-right*Math.sin(theta)-forward*Math.cos(theta))*1.2);walkTo(destination);}});});document.getElementById('walk-stop').onclick=()=>{stop();canvas.focus({preventScroll:true});};
+ // Keep a multi-touch gesture separate from click-to-walk, including the last finger lifting.
+ const pointers=new Map();let start=null,dragged=false,multiTouch=false,pinchSpan=0;
+ const span=()=>{const [a,b]=[...pointers.values()];return b?Math.hypot(b.x-a.x,b.y-a.y):0;};
+ function zoom(factor){fitOverview=false;targetDistance=MathIslandMapCamera.zoomDistance(targetDistance,factor,viewAngle);dirty=true;}
+ function clearPointers(){pointers.clear();start=null;multiTouch=false;pinchSpan=0;}
+ function releasePointer(e){pointers.delete(e.pointerId);if(!pointers.size)clearPointers();else if(multiTouch)pinchSpan=span();}
+ canvas.addEventListener('pointerdown',e=>{
+  if(e.button!==0)return;
+  canvas.focus({preventScroll:true});pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});canvas.setPointerCapture(e.pointerId);
+  if(pointers.size>1){e.preventDefault();multiTouch=true;dragged=true;start=null;pinchSpan=span();return;}
+  start={x:e.clientX,y:e.clientY,theta,phi,following,origin:look.clone(),camera:camera.clone()};start.camera.updateMatrixWorld();dragged=false;
+ });
+ canvas.addEventListener('pointermove',e=>{
+  if(!pointers.has(e.pointerId))return;
+  pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(multiTouch){e.preventDefault();const nextSpan=span();if(pinchSpan>0&&nextSpan>0)zoom(pinchSpan/nextSpan);pinchSpan=nextSpan;return;}
+  if(!start)return;
+  const dx=e.clientX-start.x,dy=e.clientY-start.y;if(Math.hypot(dx,dy)>7)dragged=true;
+  if(start.following){theta=start.theta-dx*.005;phi=Math.max(.025,Math.min(Math.PI/2,start.phi+dy*.003));targetPhi=phi;customAngle=true;updateCameraButtons();}
+  else{if(dragged)fitOverview=false;const r=canvas.getBoundingClientRect(),point=(x,y)=>({x:(x-r.left)/r.width*2-1,y:1-(y-r.top)/r.height*2}),p=MathIslandMapCamera.panTarget(T,start.camera,start.origin,point(start.x,start.y),point(e.clientX,e.clientY));goal.set(p.x,p.y,p.z);}dirty=true;
+ });
+ const ray=new T.Raycaster();canvas.addEventListener('pointerup',e=>{
+  const clicked=pointers.has(e.pointerId)&&start&&!multiTouch&&!dragged&&!riding;releasePointer(e);
+  if(!clicked)return;
+  const r=canvas.getBoundingClientRect();ray.setFromCamera(new T.Vector2((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1),camera);
+  const residentHit=ray.intersectObjects(residentHits)[0];if(residentHit){meetResident(residentHit.object.userData.resident.unitId);return;}
+  const missionHit=ray.intersectObjects(hits).find(h=>h.object.userData.mission!==undefined);
+  if(missionHit){const d=missionHit.object.userData;travelTo(MathIslands.islands[d.island].id,d.mission);}
+  else{const hit=ray.intersectObjects(groundHits)[0];if(hit&&hit.object.userData.island!==undefined)travelTo(MathIslands.islands[hit.object.userData.island].id,0);else if(hit)walkTo({x:hit.point.x,z:hit.point.z});else status.textContent='海面不能行走，請點島上或橋上的空地。';}
+ });
+ canvas.addEventListener('pointercancel',releasePointer);canvas.addEventListener('lostpointercapture',releasePointer);
+ window.addEventListener('blur',clearPointers);window.addEventListener('pagehide',clearPointers);
+ // Trackpads report pinch-to-zoom as Ctrl + wheel. Leave ordinary scrolling alone.
+ canvas.addEventListener('wheel',e=>{if(!e.ctrlKey)return;e.preventDefault();const units=e.deltaMode===1?16:e.deltaMode===2?host.clientHeight:1;zoom(Math.exp(Math.max(-1,Math.min(1,e.deltaY*units*.01))));},{passive:false});
+ canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();stop();fallback('3D 顯示已暫停，改用平面選島，數學任務仍可使用。');cancelAnimationFrame(animationFrame);});
+ document.getElementById('motion-toggle').setAttribute('aria-pressed',String(paused));document.getElementById('motion-toggle').textContent=paused?'恢復動態':'暫停動態';updateCameraButtons();updateViewCaption();updatePosition();
+ function setProgress(progress){cruiseUnlocked=MathIslandRewards.earned(progress).cruise;if(!cruiseUnlocked&&riding)endCruise();for(const marker of markers)marker.orb.material=mat(progress[marker.id]?.[marker.mission]?'#dba443':'#fff1bd');dirty=true;}
+ function meetResident(id){const resident=residentPositions.find(r=>r.unitId===id);if(!resident)return;if(Math.hypot(position.x-resident.x,position.z-resident.z)<=2){callbacks.onResident?.(resident);return;}walkTo({x:resident.x-1,z:resident.z+.15},{id,mission:0});}
+ function boardCruise(){if(!cruiseUnlocked)return false;stop();status.textContent='';riding=true;cruiseElapsed=seaTime;keys.clear();path=[];trip=null;legs.forEach(o=>{o.rotation.x=0;});arms.forEach(o=>{o.rotation.x=0;});callbacks.onResident?.(null);callbacks.onCruise?.(true);follow(true);targetDistance=35;tag.dataset.cruise='true';canvas.focus({preventScroll:true});dirty=true;return true;}
+ function endCruise(){if(!riding)return;riding=false;tag.dataset.cruise='false';callbacks.onCruise?.(false);updatePosition();follow(true);dirty=true;}
+ document.addEventListener('math-language-change',()=>{localizedSigns.forEach(paint=>paint());dirty=true;});
+ return {setVisitor,setProgress,returnToLanding,travelTo,stop,follow,meetResident,boardCruise,endCruise,setCamera,complete(id,m){const marker=markers.find(v=>v.id===id&&v.mission===m);if(marker){marker.orb.material=mat('#dba443');dirty=true;}},select(id,focus=true){active=MathIslands.islands.findIndex(i=>i.id===id);updateViewCaption();if(focus)follow(true);dirty=true;},overview,zoom,toggleMotion(){paused=!paused;dirty=true;return paused;}};
+
+};
+})();

@@ -1,0 +1,36 @@
+* { box-sizing: border-box; }
+body {
+  min-height: 100vh; margin: 0; color: #1d3a34;
+  background: linear-gradient(180deg, #183b4280, #102a2bd9),
+    #244d49 url("../assets/storybook/floating-islands.webp") top center / cover fixed no-repeat;
+  font: 1rem/1.6 system-ui, "PingFang TC", "Microsoft JhengHei", sans-serif;
+}
+.semester-menu { width: min(100% - 2rem, 72rem); margin: 2rem auto; }
+.semester-kicker, h1, .semester-school, .semester-intro { color: #fffdf3; text-shadow: 0 2px 6px #0f2b26; }
+.semester-kicker { display: flex; align-items: center; gap: .65rem; margin: 0; font-weight: 750; }
+h1 { margin: .4rem 0 0; font-size: clamp(2rem, 5vw, 3.6rem); line-height: 1.18; }
+.semester-school { margin: .4rem 0 0; font-size: clamp(1.05rem, 3vw, 1.5rem); font-weight: 750; }
+.semester-intro { margin: .6rem 0 1.1rem; font-size: clamp(1rem, 2.4vw, 1.2rem); }
+.semester-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .85rem; }
+.grade-group {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem;
+  padding: .65rem; background: #f6f6df; border: 1px solid #9caf97; border-radius: .9rem;
+}
+.grade-group > h2 { margin: 0; grid-column: 1 / -1; font-size: 1.15rem; }
+.semester-card {
+  display: flex; flex-direction: column; align-items: flex-start; min-width: 0; gap: .3rem;
+  padding: .65rem; color: inherit; background: #fff9eb; border: 1px solid #ad975f;
+  border-radius: .7rem; text-decoration: none; overflow-wrap: anywhere;
+}
+.semester-card:nth-of-type(2) { background: #ecf7ef; border-color: #80a69c; }
+.semester-card:hover, .semester-card:focus-visible { border-color: #9c5f16; outline: 3px solid #b57325; outline-offset: 2px; }
+.semester-card h3 { margin: 0; font-size: 1.1rem; }
+.semester-number { color: #524423; font-weight: 700; font-size: .875rem; }
+.semester-card p { margin: 0 0 .25rem; font-size: .9rem; }
+.semester-cta { margin-top: auto; padding: .22rem .5rem; color: #fff; background: #245548; border-radius: .45rem; font-weight: 750; }
+@media (max-width: 58rem) { .semester-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 39rem) {
+  body { background-attachment: scroll; }
+  .semester-menu { margin: 1rem auto; }
+  .semester-cards { grid-template-columns: minmax(0, 1fr); }
+}
