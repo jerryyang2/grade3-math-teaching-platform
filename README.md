@@ -30,6 +30,16 @@ python3 -m http.server 8000 --bind 127.0.0.1
 
 三下的本機課堂名單存放在 Git 排除的 `private/student-names.js`，供首頁角色、代幣存摺及補充加法遊戲載入。只有 Git 檔案的副本會顯示代號。
 
+## GitHub Pages 發布
+
+[原網站](https://jerryyang2.github.io/grade3-math-toolkit/)由 `grade3-math-toolkit` 的 `pages.yml` 工作流程發布。工作流程取用 `grade3-math-teaching-platform` 儲存庫中已審查的新版來源，驗證後發布到原網址。公開頁面使用匿名教室標示，並排除本機學生名單、PDF、暫存與 Cloudflare 登入程式。
+
+每次更新來源後，須接著執行網站發布並確認 Actions 成功，最後比對線上頁面與新版資產。只推送來源不會觸發另一個儲存庫的工作流程。
+
+```sh
+gh workflow run pages.yml --repo jerryyang2/grade3-math-toolkit --ref main
+```
+
 ## Cloudflare Pages 發布
 
 整學年公開版使用獨立專案 `dapi-math-classroom-115`，包含一至六年級上下學期課程和網頁列印功能。部署指令只打包已納入 Git 的網站資產和 Cloudflare 登入程式，網站使用學生代號。密碼驗證使用 Pages 專案的加密環境變數 `CLASSROOM_AUTH`。學期選單和課程頁提供登出按鈕，登出會清除瀏覽器的登入狀態。
