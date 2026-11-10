@@ -15,7 +15,7 @@ count=0
 for record,sheet in zip(manifest['sheets'],sheets):
     assert record['end']-record['start']==1,sheet['id']
     sheet_pages=texts[record['start']-1:record['end']]
-    assert all('115年大埤國小學習教室' in normalize(page) for page in sheet_pages),sheet['id']
+    assert all('115年學習教室' in normalize(page) for page in sheet_pages),sheet['id']
     assert [len(re.findall(r'第\s*\d+\s*題',page)) for page in sheet_pages]==[5,5],sheet['id']
     text=normalize(''.join(sheet_pages))
     assert [q['id'] for q in record['questions']]==[p['id'] for p in sheet['problems']],sheet['id']

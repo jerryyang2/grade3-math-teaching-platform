@@ -60,6 +60,11 @@
         const step=268/v.values.length;
         return svg(63,'錢幣面額：'+v.values.join('、')+' 元。',v.values.map((value,i)=>{
           const x=16+(i+.5)*step,fill=value===1?'#f5c69a':value===5?'#e0e9ee':'#ffda82';
+          if(value>=100){
+            const width=Math.min(step-4,54);
+            return rect(x-width/2,9,width,40,'#efc5c2','#937246',3)+
+              rect(x-width/2+3,13,width-6,32,'none','#b5837a',2)+label(x,33,value);
+          }
           return `<circle cx="${x}" cy="29" r="${Math.min(step/2-2,22)}" fill="${fill}" stroke="#937246"/>`+label(x,33,value);
         }).join(''));
       }

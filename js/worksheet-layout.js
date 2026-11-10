@@ -93,7 +93,7 @@
     const results=pages.map((cols,i)=>{
       const pageBottom=pageBottoms[i];
       const ops=[
-        {type:'text',text:'115年大埤國小學習教室',x:M,y:M+9,size:9,font:'hei',width:width('115年大埤國小學習教室',9,'hei')},
+        {type:'text',text:'115年學習教室',x:M,y:M+9,size:9,font:'hei',width:width('115年學習教室',9,'hei')},
         text(`南一版三年級下學期數學 · 第 ${sheet.unitNumber} 單元：${sheet.unitTitle}`,W/2,M+22,opts.language==='en'?9:10.5,'hei','middle'),
         text(sheet.title+' · 共 10 題',W/2,M+35,12,'hei','middle')
       ];

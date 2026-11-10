@@ -30,7 +30,7 @@ id_rsa
 id_ed25519
 
 # 開發相依套件、快取與暫存產物
-node_modules/
+node_modules
 .venv/
 venv/
 __pycache__/

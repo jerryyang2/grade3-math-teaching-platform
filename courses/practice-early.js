@@ -31,7 +31,7 @@ const zero=v=>{
  const a=set(v,2,8), g=groups([0,a],v%3,['甲','乙']);
  return [
   n('看空盒。盒裡有幾個？',0,groups([0],v%3),'沒有東西，用 0 表示。'),
-  w('盒裡的東西全送走了。盒裡還有幾個？',0,groups([a],v%3),'全部送走後，一個也沒有。',a,a-1),
+  w('盒裡的東西全送走了。盒裡還有幾個？',0,groups([a],v%3,undefined,a),'全部送走後，一個也沒有。',a,a-1),
   w('把兩盒的東西倒在一起，有幾個？',a,g,'空盒沒有增加數量，總數和乙盒一樣。'),
   c('哪盒不用再拿，就能在紀錄表填 0？','甲',g,'甲盒一開始就是空的。','乙','兩盒'),
   c('把左盤改記成 1，和圖相符嗎？','不相符',g,'甲盤是空的，不能寫成 1。','相符')];
@@ -44,7 +44,7 @@ const lengths=(angled=false)=>v=>{
   compare,
   c(angled?'要走直直的路，走哪一條？':'把兩條紙帶的左端對齊後，哪一條的右端伸得比較遠？',angled?nums[1-v%2]:longer,angled?trail:g,'從同一起點比較，直路沒有彎曲；紙帶則看哪條伸得更遠。',angled?nums[v%2]:shorter,'都一樣'),
   w('比較兩條一格一格的紙帶。短的還要接幾格才和長的一樣？',a-b,g,'把等長的格子一一配對，剩下的格子就是相差。'),
-  c(`甲、乙紙帶的左端${v%3===2?'已經':'還沒'}對齊。比長短時，哪個方法公平？`,'對齊一端再比',g,'移動位置不會改變紙帶的長度。','只看哪條放得高','直接看誰靠右'),
+  c(`兩條紙帶左端${v%3===1?'已經':'還沒'}對齊。比長短前，先確認什麼？`,'左端對齊',g,'先確認同一起點，再比另一端。','放得高就長','只看右端，不管起點'),
   w('把長紙帶剪成和短紙帶一樣長，剪掉幾格？',a-b,g,'長的格數減去短的格數。')];
 };
 const parts=(ten=false)=>v=>{
@@ -78,7 +78,7 @@ const place=(lo,hi,step=1)=>v=>{
  const data=hi>100?cards(...digits):cards(...digits.slice(1));
  const card=hi<=30?{kind:'firstPlace',bundles:p/10,ones:a%10}:data;
  return [
-  n(hi===30?'整捆和散根合起來，有幾根？':'把各位上的數量合起來，是多少？',a,card,'把百、十、個各自代表的數量合起來。'),
+  n(hi===30?'整捆和散根合起來，有幾根？':'把各位上的數量合起來，是多少？',a,card,hi===30?'一捆算 10 根，先數整捆，再加沒有綁起來的根數。':'把百、十、個各自代表的數量合起來。'),
   w(`從 ${a} 開始，每次多 ${step}，第二個空格是多少？`,a+2*step,path(a,'□','□',a+3*step),'從第一個數連續往後數兩次。'),
   w(`${a} 再添${hi===30?'一根':'一個十'}，是多少？`,a+(hi===30?1:10),card,hi===30?'添一根就比原來多 1。':'增加一個十，數值就增加 10。'),
   sign(`在 ${a} 和 ${a+1+v%2} 之間填哪個符號？`,a,a+1+v%2,'先比最高位，相同才往下一位。',path(a,'□',a+1+v%2)),
@@ -113,7 +113,7 @@ const shape=(mode=0)=>v=>{
  const card=label(target), others=[...nums].filter(x=>x!==card);
  return [
   c(`哪一張圖卡是${name[target]}？`,card,g,'轉方向之後，形狀的特徵不變。',...others),
-  c(`哪一張圖卡有${features[(target+1)%4]}？`,label((target+1)%4),g,'沿著圖形一圈，檢查直邊和角。',...[...nums].filter(x=>x!==label((target+1)%4))),
+  c(`哪一張圖卡的特徵是「${features[(target+1)%4]}」？`,label((target+1)%4),g,'沿著圖形一圈，檢查直邊和角。',...[...nums].filter(x=>x!==label((target+1)%4))),
   w(`${label(0)}卡和${label(1)}卡的直邊合起來有幾條？`,7,g,'三角形有 3 條，正方形有 4 條。'),
   c(`把${card}卡轉半圈後，哪個敘述對？`,'還是同一種形狀',g,'轉動會改變方向，邊長和角不會改變。','少了一個角','邊變長了'),
   mode===2?c(`手指沿${label(3)}卡的周界走一圈，走的是哪裡？`,'沿著外邊',g,'周界就是圖形最外面圍起來的線。','穿過裡面','停在圓心'):
@@ -152,8 +152,8 @@ const time=(half=false,second=false,elapsed=false)=>v=>{
  const image=clk(h,m);
  return [
   c('看鐘面，現在是什麼時刻？',show(x),image,'先找短針，再從 12 開始讀長針。',show(x+delta),show(x+60)),
-  A(`把鐘面短針往前撥到下一個整點，應記成什麼時刻？`,show((h+1)*60),[show(x),show((h+2)*60),show((h+1)*60+30)],'從現在的時刻往後找，下一個整點是下一小時。',image),
-  c(`同一天，圖上的時刻和 ${show(x+delta)} 相比，誰先？`,'鐘面上的時刻',image,'從鐘面的時刻往後走，才會到題目說的另一個時刻。','題目說的另一個時刻','同時'),
+  A(`讓鐘面上的時間往後走到下一個整點，應記成什麼時刻？`,show((h+1)*60),[show(x),show((h+2)*60),show((h+1)*60+30)],'從現在的時刻往後找，下一個整點是下一小時。',image),
+  c(`同一天上午，圖上的時刻和 ${show(x+delta)} 相比，誰先？`,'鐘面上的時刻',image,'從鐘面的時刻往後走，才會到題目說的另一個時刻。','題目說的另一個時刻','同時'),
   c(`長針在圖上的位置。只看長針，能知道是幾時嗎？`,'不能',image,'長針表示分鐘，還要看短針才知道小時。','能'),
   A(`鐘面上的時刻再往後走${second?delta+'分鐘':'半小時'}，會到什麼時刻？`,show(x+delta),[show(x),show(x+delta+60)],'沿時間向後走，跨過整點時小時要換到下一個。',image)];
 };
@@ -182,11 +182,11 @@ const money=(hundred=false,pay=false)=>v=>{
  const amount=a*unit+b*small, g=coins(...Array(a).fill(unit),...Array(b).fill(small));
  return [
   n('看圖，這些錢合起來幾元？',amount,g,'先數大面額，再加上小面額。'),
-  w(`拿走 1 枚 ${unit} 元，還剩幾元？`,amount-unit,g,'從總金額扣掉拿走的一枚。'),
-  w(`只把圖中 1 枚 ${unit} 元換成 ${small} 元。可以換幾枚？`,unit/small,g,'換錢時總金額不能變。'),
+  w(hundred?`拿走一張 ${unit} 元紙鈔，還剩幾元？`:`拿走一枚 ${unit} 元硬幣，還剩幾元？`,amount-unit,g,'從總金額扣掉拿走的面額。'),
+  w(hundred?`把圖中一張 ${unit} 元紙鈔換成 ${small} 元硬幣。可以換幾枚？`:`把圖中一枚 ${unit} 元硬幣換成 ${small} 元硬幣。可以換幾枚？`,unit/small,g,'換錢時總金額不能變。'),
   c(`買 ${amount+small} 元的東西，圖裡的錢夠不夠？`,'不夠',g,'持有的總額比價錢少。','夠','剛好'),
-  w(pay?`拿圖上的錢買 ${amount-small} 元的東西。會剩幾元？`:`再補 1 枚 ${unit} 元和 1 枚 ${small} 元。共幾元？`,
-    pay?small:amount+unit+small,g,pay?'先合出持有的錢，再減掉價錢。':'把增加的兩枚面額都加進去。')];
+  w(pay?`拿圖上的錢買 ${amount-small} 元的東西。會剩幾元？`:hundred?`再補一張 ${unit} 元紙鈔和一枚 ${small} 元硬幣。共幾元？`:`再補一枚 ${unit} 元和一枚 ${small} 元硬幣。共幾元？`,
+    pay?small:amount+unit+small,g,pay?'先合出持有的錢，再減掉價錢。':'把增加的兩個面額都加進去。')];
 };
 const columns=(minus=false,large=false,estimate=false)=>v=>{
  const a=(large?235:24)+3*v, b=(large?137:17)+v, total=minus?a-b:a+b, g=box(a,b,!minus);

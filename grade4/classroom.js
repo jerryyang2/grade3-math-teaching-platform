@@ -246,7 +246,7 @@
     $('worksheet-pages').innerHTML=[0,1].map(i=>{
       const start=i*5;
       return `<section class="worksheet-sheet"><header>
-        <p class="worksheet-school" translate="no">115年大埤國小學習教室</p>
+        <p class="worksheet-school" translate="no">115年學習教室</p>
         <h3>${termTitle} · 第 ${number} 單元：${escape(selected.title)}</h3>
         <p class="worksheet-subtitle">${escape(title)} · 共 10 題</p>
         <p class="worksheet-student"><span>姓名：____________　日期：${escape(date)}</span><span>第 ${i+1} / 2 頁　得分：____</span></p>

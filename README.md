@@ -1,12 +1,8 @@
 # 慢慢把數學玩懂｜115 學年度南一版一至六年級
 
-同一個學期選單提供一至六年級、十二學期的南一版課程。依伸東國小 115 學年度課程計畫確認單元範圍，網站的例題、圖像、操作活動與引導文字為自編教材。
+同一個學期選單提供一至六年級、十二學期的南一版課程。參照 115 學年度課程計畫確認單元範圍，網站的例題、圖像、操作活動與引導文字為自編教材。
 
-[伸東國小三年級數學課程計畫（三上第 1 頁，三下第 28 頁）](https://www.curriculum.chc.edu.tw/years/115/plans/1519/views/5-3%E6%95%B8%E5%AD%B8.pdf)
-
-[伸東國小四年級數學課程計畫（四上第 1 頁，四下第 29 頁）](https://www.curriculum.chc.edu.tw/years/115/plans/1519/views/5-4%E6%95%B8%E5%AD%B8.pdf)
-
-[一年級課程計畫](https://www.curriculum.chc.edu.tw/years/115/plans/1519/views/5-1%E6%95%B8%E5%AD%B8.pdf) · [二年級課程計畫](https://www.curriculum.chc.edu.tw/years/115/plans/1519/views/5-2%E6%95%B8%E5%AD%B8.pdf) · [五年級課程計畫](https://www.curriculum.chc.edu.tw/years/115/plans/1519/views/5-5%E6%95%B8%E5%AD%B8.pdf) · [六年級課程計畫](https://www.curriculum.chc.edu.tw/years/115/plans/1519/views/5-6%E6%95%B8%E5%AD%B8.pdf)
+[公開課程計畫查詢入口](https://www.curriculum.chc.edu.tw/)
 
 ## 本機使用
 
@@ -74,5 +70,11 @@ node upper/scripts/sync-worksheet-pdf.cjs --check
 npm run worksheets:grade4:pdf
 npm run worksheets:grade4:pdf -- --all  # 一、二、四、五、六年級十冊
 node scripts/worksheets/check-course-practice.cjs
-node scripts/worksheets/check-course-practice.cjs
+node scripts/check-content-consistency.cjs
 ```
+
+## 教材核對進度
+
+目前已建立十二學期題目與可見文字的盤點，針對取得的課本、習作進行文字檢索、數字替換後的句型比對及疑似相近內容覆核。三上已同步參賽版的 46 題風險修訂，並更新對應題圖、英文對照與朗讀。其餘新增修訂包含紙帶起點、零的題圖、時刻比較、紙鈔量詞與分數逆推條件。一下一共 242 頁、二上一共 264 頁、二下一共 262 頁參考書另完成圖像總覽及共用題型覆核，並釐清數到 100、長度及日期的三處提示。
+
+這是階段性的教材檢查，尚未完成十二學期的同版本逐題核對。目前下學期參考書是 114 下，網站採 115 學年度課程安排；三下「找規律」缺少同版原書，三下習作亦待補齊。未命中文字比對不代表沒有侵權風險，圖像、情境、選材及編排仍須持續核對。出版社授權正在詢問中；本專案尚未取得南一的正式授權，亦不代表南一官方教材或合作產品。原書、頁面截圖、逐題對照與授權往來僅存於本機私有資料夾，不隨網站發布。

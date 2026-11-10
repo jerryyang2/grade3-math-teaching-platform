@@ -25,7 +25,7 @@ for term in json.load(sys.stdin):
             text = page.extract_text()
             # Chromium 的部分中文字型會以等形部首碼位輸出「長」與「目」。
             normalized = re.sub(r'\s+', '', unicodedata.normalize('NFKC', text)).translate(str.maketrans({'⻑':'長', '⺫':'目'}))
-            if '115年大埤國小學習教室' not in normalized:
+            if '115年學習教室' not in normalized:
                 raise ValueError(f'{location} 第 {number + 1} 頁缺少學習教室頁首')
             if number == 1 and not all(label in normalized for label in [
                 '個別化支持紀錄', '學習內容:題意簡化、圖像提示', '學習歷程:計算對齊、分段引導',

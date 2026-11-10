@@ -16,7 +16,7 @@ for record,sheet in zip(manifest['sheets'],sheets):
     assert record['end']-record['start']==1,sheet['id']
     sheet_pages=texts[record['start']-1:record['end']]
     assert [len(re.findall(r'第\s*\d+\s*題',page)) for page in sheet_pages]==[5,5],sheet['id']
-    assert all('115年大埤國小學習教室' in normalize(page) for page in sheet_pages),sheet['id']
+    assert all('115年學習教室' in normalize(page) for page in sheet_pages),sheet['id']
     for layout_page in sheet['layout']['pages']:
         target=float(r.pages[0].mediabox.height)-layout_page['bottom']
         for x in {q['x'] for q in layout_page['questions']}:

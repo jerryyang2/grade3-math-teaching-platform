@@ -75,7 +75,7 @@ const Grade3LowerDiagnostics = (() => {
   }
   return { sources, indicators, forUnit };
 })();
-/* 南一版第六冊，依伸東國小 115 學年度第二學期課程計畫編排。題目與例子為本站自編。 */
+/* 南一版第六冊，依 115 學年度第二學期課程計畫編排。題目與例子為本站自編。 */
 const NANI_G3S2_DATA = (() => {
   const rows = [
     {
