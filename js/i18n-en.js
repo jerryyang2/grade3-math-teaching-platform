@@ -7889,7 +7889,8 @@ const catalog={
   "從 ⟦0⟧ 日辦到 ⟦1⟧ 日，開始和結束那天都算在內。": "The event runs from day ⟦0⟧ through day ⟦1⟧, including both the first and last day.",
   "計數要從哪一天開始？": "Which day should you count first?",
   "有 ⟦0⟧ 張 100 元紙鈔、2 枚 10 元硬幣和 ⟦1⟧ 枚 1 元硬幣。共有幾元？": "There are ⟦0⟧ NT$100 banknotes, two NT$10 coins, and ⟦1⟧ NT$1 coins. How much money is there in total?",
-  "從同一個月的 ⟦0⟧ 日到 ⟦1⟧ 日，開始和結束那天都算在內，共幾天？": "From day ⟦0⟧ through day ⟦1⟧ of the same month, including both the first and last day, how many days are there?"
+  "從同一個月的 ⟦0⟧ 日到 ⟦1⟧ 日，開始和結束那天都算在內，共幾天？": "From day ⟦0⟧ through day ⟦1⟧ of the same month, including both the first and last day, how many days are there?",
+  "每盒原有 ⟦0⟧ 個，每盒各吃掉 ⟦1⟧ 個，⟦2⟧ 盒共剩多少？要用哪個算式？": "Each box originally has ⟦0⟧ items, and ⟦1⟧ items are eaten from each box. How many are left in ⟦2⟧ boxes? Which expression represents this?"
 };
 if(typeof module!=="undefined"&&module.exports)module.exports=catalog;else root.MathEnglishCatalog=Object.freeze(catalog);
 })(typeof window!=="undefined"?window:globalThis);
