@@ -229,7 +229,7 @@ const NANI_G3S2_DATA = (() => {
   return {
     meta:{
       curriculum:'108 課綱國小數學',publisher:'南一版',grade:'國小三年級下學期（115 學年度／第六冊）',
-      source:'https://www.curriculum.chc.edu.tw/years/115/plans/1519/views/5-3%E6%95%B8%E5%AD%B8.pdf#page=28',
+      source:'https://www.curriculum.chc.edu.tw/',
       promptFadingLevels:{level1:{name:'彩色輔助'},level2:{name:'減少色彩'},level3:{name:'黑白顯示'}}
     },
     units,

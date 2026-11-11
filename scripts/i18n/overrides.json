@@ -1709,5 +1709,13 @@
   "只看右端，不管起點": "Look only at the right ends; ignore the starting points",
   "先確認同一起點，再比另一端。": "Check that the starting points line up, then compare the other ends.",
   "從總金額扣掉拿走的面額。": "Subtract the value of the money taken away from the total.",
-  "把增加的兩個面額都加進去。": "Add the values of both pieces of money."
+  "把增加的兩個面額都加進去。": "Add the values of both pieces of money.",
+  "先數幾個十，再加幾個一。": "Count the tens first, then add the ones.",
+  "從起點刻度加上要畫的長度。": "Add the length to the starting mark.",
+  "右邊那段剪掉了，數一數左邊留下幾格。": "Cut off the section on the right. Count the squares left in the section on the left.",
+  "從 ⟦0⟧ 日辦到 ⟦1⟧ 日，開始和結束那天都算在內。計數要從哪一天開始？": "The event runs from day ⟦0⟧ through day ⟦1⟧, including both the first and last day. Which day should you count first?",
+  "從 ⟦0⟧ 日辦到 ⟦1⟧ 日，開始和結束那天都算在內。": "The event runs from day ⟦0⟧ through day ⟦1⟧, including both the first and last day.",
+  "計數要從哪一天開始？": "Which day should you count first?",
+  "有 ⟦0⟧ 張 100 元紙鈔、2 枚 10 元硬幣和 ⟦1⟧ 枚 1 元硬幣。共有幾元？": "There are ⟦0⟧ NT$100 banknotes, two NT$10 coins, and ⟦1⟧ NT$1 coins. How much money is there in total?",
+  "從同一個月的 ⟦0⟧ 日到 ⟦1⟧ 日，開始和結束那天都算在內，共幾天？": "From day ⟦0⟧ through day ⟦1⟧ of the same month, including both the first and last day, how many days are there?"
 }

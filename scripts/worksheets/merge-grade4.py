@@ -6,6 +6,7 @@ import unicodedata
 from pathlib import Path
 
 from pypdf import PdfReader, PdfWriter
+import pdfplumber
 
 output = Path(sys.argv[1])
 for term in json.load(sys.stdin):
@@ -16,6 +17,10 @@ for term in json.load(sys.stdin):
     parents = {}
     for item in manifest:
         reader = PdfReader(item['file'])
+        with pdfplumber.open(item['file']) as document:
+            fonts = {char['fontname'] for page in document.pages for char in page.chars}
+            if not fonts or any('BiauKaiTC' not in font for font in fonts):
+                raise ValueError(f'{label} {item["unit"]} {item["title"]} 必須全部使用標楷體 BiauKaiTC')
         location = f"{label} {item['unit']} {item['title']}"
         if len(reader.pages) != 2:
             raise ValueError(f'{location} 不是兩頁')

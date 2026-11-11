@@ -19,10 +19,13 @@ for(const grade of grades.filter(grade=>grade!==4)) require('../../courses/grade
 const bundledPlaywright = path.join(runtime,'node/node_modules/playwright');
 const playwright = require(process.env.WORKSHEET_PLAYWRIGHT || (fs.existsSync(bundledPlaywright) ? bundledPlaywright : 'playwright'));
 const python = [process.env.WORKSHEET_PDF_PYTHON, path.join(runtime,'python/bin/python3'),'python3']
-  .filter(Boolean).find(candidate => spawnSync(candidate,['-c','import pypdf'],{stdio:'ignore'}).status === 0);
+  .filter(Boolean).find(candidate => spawnSync(candidate,['-c','import pypdf, pdfplumber, reportlab'],{stdio:'ignore'}).status === 0);
 
 (async () => {
-  if (!python) throw Error('請安裝 Python 的 pypdf 或設定 WORKSHEET_PDF_PYTHON。');
+  if (!python) throw Error('請安裝 Python 的 pypdf、pdfplumber、reportlab，或設定 WORKSHEET_PDF_PYTHON。');
+  const font = spawnSync(python,[path.join(root,'scripts/pdf_fonts.py')],{encoding:'utf8'});
+  if(font.status!==0) throw Error('標楷體準備失敗：'+font.stderr);
+  const fontUrl = pathToFileURL(font.stdout.trim()).href;
   const tempRoot = path.join(root,'tmp/pdfs');
   const out = path.join(root,'output/pdf');
   fs.mkdirSync(tempRoot,{recursive:true});
@@ -55,14 +58,27 @@ const python = [process.env.WORKSHEET_PDF_PYTHON, path.join(runtime,'python/bin/
             getComputedStyle(document.querySelector('#question')).fontFamily.startsWith('"Zihi Reading"') &&
             [...document.fonts].some(font=>font.family.includes('Zihi Reading')&&font.status==='loaded');
         }),label+' 課堂未載入字嗨注音標楷');
+        // Only local PDF output uses the private, validated BiauKaiTC font.
+        await page.addStyleTag({content:`
+          @font-face { font-family:"Local Worksheet BiauKai"; src:url("${fontUrl}") format("truetype"); font-weight:400; }
+          @media print { #worksheet #worksheet-pages, #worksheet #worksheet-pages * {
+            font-family:"Local Worksheet BiauKai" !important; font-weight:400 !important; font-style:normal !important;
+          } }
+        `});
         for (const unit of units) {
           await page.locator('#unit-list [data-unit='+unit.id+']').click();
           await page.locator('#worksheet-open').click();
+          await page.locator('#worksheet-zihi').uncheck();
           const scopes=unit.sections.filter(section=>section.questions.length===10);
           for (const [id,title] of [['all','單元總複習'],...scopes.map(section=>[section.id,section.title])]) {
             await page.locator('#worksheet-scope').selectOption(id);
             await page.evaluate(()=>document.fonts.ready);
             await page.emulateMedia({media:'print'});
+            assert.ok(await page.evaluate(async()=>{
+              await document.fonts.load('16px "Local Worksheet BiauKai"','看圖數一數');
+              return document.fonts.check('16px "Local Worksheet BiauKai"','看圖數一數') &&
+                getComputedStyle(document.querySelector('.worksheet-prompt')).fontFamily.includes('Local Worksheet BiauKai');
+            }),label+' PDF 未載入標楷體');
             const pages=await page.locator('.worksheet-sheet').evaluateAll(sheets=>sheets.map(sheet=>{
               const area=sheet.getBoundingClientRect();
               const support=sheet.querySelector('.worksheet-support');
