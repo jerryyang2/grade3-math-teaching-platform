@@ -43,12 +43,15 @@
         }).join(''));
       }
       case 'firstParts': {
-        const seeds=(n,y)=>Array.from({length:n},(_,i)=>forestIcon(1,150+(i-(n-1)/2)*22,y,.8)).join('');
+        const seeds=(n,y,center=150,cols=n)=>Array.from({length:n},(_,i)=>{
+          const row=Math.floor(i/cols),inRow=Math.min(cols,n-row*cols);
+          return forestIcon(1,center+(i%cols-(inRow-1)/2)*22,y+row*19,.8);
+        }).join('');
         return svg(116,`上面有 ${v.whole} 顆種子，左邊有 ${v.left} 顆，右邊待填。`,
           '<rect x="22" y="6" width="256" height="34" rx="13" fill="#fff1c7" stroke="#af8a55"/>'
           +seeds(v.whole,24)+line(150,41,83,57)+line(150,41,227,57)
           +'<rect x="20" y="57" width="128" height="44" rx="12" fill="#e9f3d9" stroke="#728951"/><rect x="165" y="57" width="113" height="44" rx="12" fill="#f7ecda" stroke="#af8a55"/>'
-          +`<g transform="translate(-65 0)">${seeds(v.left,78)}</g>`+label(222,85,'？'));
+          +seeds(v.left,v.left>5?70:78,84,5)+label(222,85,'？'));
       }
       case 'firstBooks': {
         const y=height=>84-height*7;
@@ -193,10 +196,11 @@
           `<path d="M 173 105 A 28 28 0 0 0 ${ax} ${ay}" fill="none" stroke="#9b5027" stroke-width="3"/><circle cx="145" cy="105" r="3" fill="#315a4a"/>`);
       }
       case 'line': {
+        const start=v.start??0,end=v.end??Number(start)+1;
         const x = i => 25 + i * (250/v.parts);
-        return svg(65,`從 0 到 1 平均分成 ${v.parts} 格，標在從 0 起第 ${v.at} 格。`,line(19,30,281,30)+
+        return svg(65,`從 ${start} 到 ${end} 平均分成 ${v.parts} 格，標在從 ${start} 起第 ${v.at} 格。`,line(19,30,281,30)+
           Array.from({length:v.parts+1},(_,i)=>line(x(i),23,x(i),37)).join('')+
-          `<circle cx="${x(v.at)}" cy="30" r="5" fill="#923c23"/>`+label(25,54,'0')+label(275,54,'1'));
+          `<circle cx="${x(v.at)}" cy="30" r="5" fill="#923c23"/>`+label(25,54,start)+label(275,54,end)+(v.blank?label(x(v.at),54,'□'):''));
       }
       case 'quad': {
         const shapes = {rect:[[68,30],[232,30],[232,100],[68,100]],rhombus:[[150,23],[220,65],[150,107],[80,65]],trapezoid:[[95,30],[197,30],[232,100],[62,100]],parallelogram:[[102,30],[239,30],[202,100],[65,100]]};

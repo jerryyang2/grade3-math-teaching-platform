@@ -321,7 +321,6 @@
   "水桶裡原本有 5 公升的水，洗車用掉 3 公升 450 毫升，還剩下多少水？": "A bucket contains 5 L of water. You use 3 L 450 mL to wash a car. How much water is left?",
   "媽媽煮綠豆湯，加了 2 公升 350 毫升的水，煮好後水分蒸發了 450 毫升，綠豆湯還剩多少水？": "A pot starts with 2 L 350 mL of water. During cooking, 450 mL evaporates. How much water is left?",
   "奇奇每天喝 1 公升 500 毫升的水，妮妮每天喝 1800 毫升的水，兩人一天共喝多少水？": "Qiqi drinks 1 L 500 mL of water a day. Nini drinks 1,800 mL. How much do they drink altogether?",
-  "把 1 塊布朗尼蛋糕「平分」成 4 塊，其中的 1 塊是幾分之幾塊蛋糕？": "A brownie is cut into 4 equal pieces. What fraction of the whole brownie is one piece?",
   "1 個完整的圓形蛋糕，可以看成幾分之幾？（平分成 4 份時）": "A whole cake is divided into 4 equal pieces. How many quarter-pieces make the whole cake?",
   "8 個「1/8」合起來是 8/8，8/8 等於整數多少？": "Eight eighths make 8/8. What whole number equals 8/8?",
   "比大小：同分母分數「3/7」和「5/7」，哪一個比較大？": "Which is greater: 3/7 or 5/7?",
@@ -369,7 +368,6 @@
   "2-2 三、四位數的減法": "2-2 Subtract Three- and Four-digit Numbers",
   "2-3 加減應用": "2-3 Addition and Subtraction Word Problems",
   "2-4 加減估算": "2-4 Estimate Sums and Differences",
-  "3-1 二位數乘以一位數": "3-1 Two-digit × One-digit Numbers",
   "3-2 三位數乘以一位數": "3-2 Three-digit × One-digit Numbers",
   "3-3 乘法的估算": "3-3 Estimate Products",
   "4-1 認識毫米與實測估測": "4-1 Measure and Estimate in Millimeters",
@@ -378,13 +376,11 @@
   "5-1 認識角與比較大小": "5-1 Explore and Compare Angles",
   "5-2 認識直角、銳角和鈍角": "5-2 Right, Acute, and Obtuse Angles",
   "5-3 正方形和長方形": "5-3 Squares and Rectangles",
-  "6-1 認識除法與平分分裝": "6-1 Division and Equal Sharing",
   "6-2 認識餘數與直式除法": "6-2 Remainders and Long Division",
   "6-3 0和1的除法、認識偶數和奇數": "6-3 Zero, One, Odd, and Even",
   "7-1 認識公升與毫升": "7-1 Liters and Milliliters",
   "7-2 公升和毫升的換算與比較": "7-2 Convert and Compare Capacities",
   "7-3 公升和毫升的計算與應用": "7-3 Calculate with Capacities",
-  "8-1 幾分之幾與單位分數": "8-1 Fractions and Unit Fractions",
   "8-2 單位分數的累加與同分母大小比較": "8-2 Combine and Compare Fractions",
   "9-1 認識圓心、圓周、半徑和直徑": "9-1 Parts of a Circle",
   "9-2 直徑與半徑的關係與圓規使用": "9-2 Radius, Diameter, and Compasses",
@@ -1765,5 +1761,6 @@
   "說明更新日期：2026 年 11 月 11 日": "Last updated: November 11, 2026",
   "教材來源與網站聲明": "Teaching sources and website statement",
   "本站依學生的學習需求，設計與調整數學練習、解題提示、互動教具及教學活動。製作過程運用 AI 工具協助，由教師進行內容選用、檢核與修訂。數學概念、公式與單位依通用的學科知識呈現。": "The website designs and adapts mathematics practice, problem-solving prompts, interactive tools and teaching activities to meet students’ learning needs. AI tools assist the production process, while a teacher selects, checks and revises the content. Mathematical concepts, formulas and units follow established subject knowledge.",
-  "網站中的數量、尺規、鐘面、分數與幾何示意圖，主要以程式繪製；動物角色與場景圖片用於輔助教學及介面呈現。第三方素材的權利歸原權利人所有，使用範圍以個別授權條款為準。若需轉載、改作或另作其他用途，請先確認相關素材的使用權限。": "Quantity, measurement, clock, fraction and geometry diagrams are mainly drawn programmatically. Animal characters and scene images support teaching and the interface. Rights to third-party materials remain with their respective rights holders, and permitted use is governed by each item’s license. Before reproducing, adapting or otherwise using a material, please check the relevant permissions."
+  "網站中的數量、尺規、鐘面、分數與幾何示意圖，主要以程式繪製；動物角色與場景圖片用於輔助教學及介面呈現。第三方素材的權利歸原權利人所有，使用範圍以個別授權條款為準。若需轉載、改作或另作其他用途，請先確認相關素材的使用權限。": "Quantity, measurement, clock, fraction and geometry diagrams are mainly drawn programmatically. Animal characters and scene images support teaching and the interface. Rights to third-party materials remain with their respective rights holders, and permitted use is governed by each item’s license. Before reproducing, adapting or otherwise using a material, please check the relevant permissions.",
+  "把 369 張紙平均分成 3 疊。每疊先取走 3 張，每疊還有幾張？": "Share 369 sheets equally into 3 stacks. Remove 3 sheets from each stack. How many sheets remain in each stack?"
 }

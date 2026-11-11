@@ -23,7 +23,7 @@
     const {sheet,settings}=JSON.parse(payload);
     document.body.classList.toggle('ws-zihi',Boolean(settings.withZihi));
     document.title='數學學習單 - '+sheet.unitTitle+' - '+sheet.title;
-    for(const path of ['i18n-en.js?v=classroom-review-20261107','i18n.js','worksheet-font-metrics.js',
+    for(const path of ['i18n-en.js?v=rights-review-20261111','i18n.js','worksheet-font-metrics.js',
       'worksheet-layout.js?v=worksheet-space-20261107','worksheet-preview.js']){
       await new Promise((resolve,reject)=>{
         const script=document.createElement('script');
