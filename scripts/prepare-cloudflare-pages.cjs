@@ -4,7 +4,7 @@ const { execFileSync } = require('node:child_process');
 
 const root = path.resolve(__dirname, '..');
 const entries = new Set([
-  'index.html', 'lower.html', 'worksheet-preview.html', 'favicon.svg', 'upper/index.html', 'upper/favicon.svg',
+  'index.html', 'materials.html', 'lower.html', 'worksheet-preview.html', 'favicon.svg', 'upper/index.html', 'upper/favicon.svg',
   'grade4/index.html', 'grade4/classroom.css', 'grade4/classroom.js', 'grade4/curriculum.js',
   'courses/arcade.js', 'courses/arcade.css', 'courses/tug-data.js', 'courses/classroom-figures.js',
   'courses/index.html', 'courses/curriculum-core.js', 'courses/grade1.js', 'courses/grade1-upper.js', 'courses/grade1-upper-draw.js', 'courses/grade1-upper-tools.js', 'courses/grade2.js',
