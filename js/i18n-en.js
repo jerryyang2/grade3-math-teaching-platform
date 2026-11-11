@@ -7920,11 +7920,8 @@ const catalog={
   "這裡說明課程參考範圍、平台內容與第三方素材的使用方式。來源標示不等於取得授權；個別素材如有另列條款，應依該條款使用。": "This page explains curriculum references, platform content and the use of third-party materials. Attribution does not establish permission. Where separate terms apply to an item, those terms govern its use.",
   "智慧財產局：引用、註明出處與合理使用": "Taiwan Intellectual Property Office: quotation, attribution and fair use",
   "項目": "Item",
-  "跨年級版本目前參考南一 115 上及 114 下教材。下學期參考材料與平台所採 115 學年度安排有版次差異，尤其三下「找規律」尚缺 115 下同版原書，不能標示為同版逐題核對完成。": "The cross-grade edition currently references Nani 115 first-semester and 114 second-semester materials. Second-semester references differ from the platform’s 115 school-year sequence. In particular, the matching 115 second-semester source for Grade 3 patterns is unavailable; it has not been verified exercise by exercise against that edition.",
   "圖示、字型與程式碼的個別授權": "Separate licenses for icons, fonts and code",
   "說明更新日期：2026 年 11 月 11 日": "Last updated: November 11, 2026",
-  "練習、提示、互動教具與教學活動依學生需求編寫及調整，開發過程使用 AI 工具協助，由教師選用、檢查與修訂。一般數學概念、單位及公式可能與其他教材相同，不據此宣稱所有內容均為獨創。": "Practice, prompts, interactive tools and learning activities are written and adapted for students’ needs. AI tools assist development, while the teacher selects, checks and revises the material. General mathematical concepts, units and formulas may also occur in other materials; this is not a claim that all content is wholly original.",
-  "操作示意圖包含程式繪製的數量、尺規、鐘面、分數及幾何圖像；動物與場景圖片則作為平台的視覺素材。圖片未另標示開放授權者，本頁不提供其再授權；如需另行使用，請先確認個別素材的來源與使用權。": "Hands-on diagrams include programmatically drawn quantities, rulers, clocks, fractions and geometric figures. Animal and scene images provide visual elements for the platform. Unless an image carries an explicit open license, this page does not grant permission to reuse it. Confirm the source and rights for each item before separate use.",
   "關於本站": "About this website",
   "Bpmf Project Authors 字型專案": "Bpmf Project Authors font project",
   "canvas-confetti 專案授權條款": "canvas-confetti project license",
@@ -7938,7 +7935,9 @@ const catalog={
   "Tailwind CSS": "Tailwind CSS",
   "Tone.js": "Tone.js",
   "canvas-confetti": "canvas-confetti",
-  "Font Awesome Free": "Font Awesome Free"
+  "Font Awesome Free": "Font Awesome Free",
+  "本站依學生的學習需求，設計與調整數學練習、解題提示、互動教具及教學活動。製作過程運用 AI 工具協助，由教師進行內容選用、檢核與修訂。數學概念、公式與單位依通用的學科知識呈現。": "The website designs and adapts mathematics practice, problem-solving prompts, interactive tools and teaching activities to meet students’ learning needs. AI tools assist the production process, while a teacher selects, checks and revises the content. Mathematical concepts, formulas and units follow established subject knowledge.",
+  "網站中的數量、尺規、鐘面、分數與幾何示意圖，主要以程式繪製；動物角色與場景圖片用於輔助教學及介面呈現。第三方素材的權利歸原權利人所有，使用範圍以個別授權條款為準。若需轉載、改作或另作其他用途，請先確認相關素材的使用權限。": "Quantity, measurement, clock, fraction and geometry diagrams are mainly drawn programmatically. Animal characters and scene images support teaching and the interface. Rights to third-party materials remain with their respective rights holders, and permitted use is governed by each item’s license. Before reproducing, adapting or otherwise using a material, please check the relevant permissions."
 };
 if(typeof module!=="undefined"&&module.exports)module.exports=catalog;else root.MathEnglishCatalog=Object.freeze(catalog);
 })(typeof window!=="undefined"?window:globalThis);
